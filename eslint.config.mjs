@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Cypress files use namespace augmentation to extend Chainable — not app code
+    "cypress/**",
+    "cypress.config.ts",
   ]),
 ]);
 
