@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchPokemon, capitalize, TYPE_COLORS, getPokemonSprite } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { fetchPokemon, capitalize, getPokemonSprite } from "@/lib/pokeapi";
 import { t } from "@/lib/i18n";
 
 interface Props {
@@ -43,7 +44,7 @@ export function PokemonPreview({ name, onRemove }: Props) {
               <span
                 key={type.name}
                 className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-white"
-                style={{ backgroundColor: TYPE_COLORS[type.name] ?? "#888" }}
+                style={{ backgroundColor: TYPE_COLORS[type.name] ?? DEFAULT_TYPE_COLOR }}
               >
                 {type.name}
               </span>

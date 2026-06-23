@@ -1,11 +1,12 @@
-import { capitalize, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { capitalize } from "@/lib/pokeapi";
 
 interface Props {
   name: string;
 }
 
 export function TypeHeader({ name }: Props) {
-  const color = TYPE_COLORS[name] ?? "#888";
+  const color = TYPE_COLORS[name] ?? DEFAULT_TYPE_COLOR;
 
   return (
     <div

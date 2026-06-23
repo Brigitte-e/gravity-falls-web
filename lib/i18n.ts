@@ -1,3 +1,4 @@
+import { GENERATION_PREFIX } from "@/lib/constants";
 import en from "@/messages/en.json";
 
 type Params = Record<string, string | number>;
@@ -26,6 +27,6 @@ export function t(key: string, params?: Params): string {
 }
 
 export function formatGenerationLabel(name: string): string {
-  const suffix = name.replace("generation-", "").toUpperCase();
+  const suffix = name.replace(GENERATION_PREFIX, "").toUpperCase();
   return t("generationFilter.generation", { suffix });
 }

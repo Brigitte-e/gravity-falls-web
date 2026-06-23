@@ -1,8 +1,9 @@
 import { fetchPokemonList } from "@/app/api/pokemon";
 import { fetchType } from "@/app/api/types";
 import { fetchGeneration } from "@/app/api/generations";
+import { POKEMON_LIST_PAGE_SIZE } from "@/lib/constants";
 import { PokemonListClient } from "./PokemonListClient";
-import { PAGE_SIZE, type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
+import { type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
 import type { Generation, PokemonType } from "@/types";
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
 
 export async function PokemonList({ types, generation }: Props) {
   const [listData, generationData, ...typeData] = await Promise.all([
-    fetchPokemonList(0, PAGE_SIZE),
+    fetchPokemonList(0, POKEMON_LIST_PAGE_SIZE),
     generation ? fetchGeneration(generation) : Promise.resolve(null),
     ...types.map(fetchType),
   ]);

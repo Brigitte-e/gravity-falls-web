@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchTypeList } from "@/app/api/types";
-import { capitalize, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { capitalize } from "@/lib/pokeapi";
 
 export async function TypeGrid() {
   const data = await fetchTypeList();
@@ -9,7 +10,7 @@ export async function TypeGrid() {
   return (
     <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {types.map((type) => {
-        const color = TYPE_COLORS[type.name] ?? "#888";
+        const color = TYPE_COLORS[type.name] ?? DEFAULT_TYPE_COLOR;
         return (
           <li key={type.name}>
             <Link

@@ -1,12 +1,13 @@
-import { FavoritesList } from "./features/FavoritesList";
+import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
+import { FavoritesList } from "./features/FavoritesList";
 import { t } from "@/lib/i18n";
 
 export default function FavoritesPage() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
+    <PageContainer>
       <PageHeader title={t("pages.favorites.title")} />
       <FavoritesList />
-    </main>
+    </PageContainer>
   );
 }

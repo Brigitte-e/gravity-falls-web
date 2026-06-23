@@ -1,8 +1,7 @@
 "use client";
 
+import { FAVORITES_STORAGE_KEY } from "@/lib/constants";
 import { useState } from "react";
-
-const STORAGE_KEY = "pokemon-favorites";
 
 export interface FavoriteEntry {
   id: number;
@@ -12,14 +11,14 @@ export interface FavoriteEntry {
 export function getFavorites(): FavoriteEntry[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
+    return JSON.parse(localStorage.getItem(FAVORITES_STORAGE_KEY) ?? "[]");
   } catch {
     return [];
   }
 }
 
 export function saveFavorites(favs: FavoriteEntry[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+  localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favs));
 }
 
 export function useFavorites() {

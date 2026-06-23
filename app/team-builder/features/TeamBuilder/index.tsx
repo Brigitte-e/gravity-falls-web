@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { MAX_TEAM_SIZE } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
 import { ErrorState } from "@/components/ErrorState";
 import { t } from "@/lib/i18n";
 import { PokemonPreview } from "./PokemonPreview";
-
-const MAX_TEAM = 6;
 
 interface TeamSlot {
   name: string;
@@ -20,7 +19,7 @@ export function TeamBuilder() {
   function addPokemon() {
     const name = input.trim().toLowerCase();
     if (!name) return;
-    if (team.length >= MAX_TEAM) {
+    if (team.length >= MAX_TEAM_SIZE) {
       setError(t("teamBuilder.teamFull"));
       return;
     }
@@ -37,7 +36,7 @@ export function TeamBuilder() {
     setTeam((t) => t.filter((s) => s.name !== name));
   }
 
-  const empty = MAX_TEAM - team.length;
+  const empty = MAX_TEAM_SIZE - team.length;
 
   return (
     <>
@@ -56,7 +55,7 @@ export function TeamBuilder() {
         />
         <button
           type="submit"
-          disabled={team.length >= MAX_TEAM}
+          disabled={team.length >= MAX_TEAM_SIZE}
           className="rounded-xl bg-pk-red px-5 py-2 text-sm font-bold text-white disabled:opacity-40 hover:brightness-110 transition"
         >
           {t("teamBuilder.add")}

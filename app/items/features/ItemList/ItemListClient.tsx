@@ -7,7 +7,8 @@ import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { ItemModal } from "@/components/ItemModal";
 import { LazyImage } from "@/components/LazyImage";
-import { useItemListQuery, PAGE_SIZE, type ItemListInitialData } from "../../hooks/useItemListQuery";
+import { ITEM_LIST_PAGE_SIZE } from "@/lib/constants";
+import { useItemListQuery, type ItemListInitialData } from "../../hooks/useItemListQuery";
 
 interface Props {
   initialData: ItemListInitialData;
@@ -19,7 +20,7 @@ export function ItemListClient({ initialData }: Props) {
 
   const { data, isLoading, isError, error } = useItemListQuery({ page, initialData });
 
-  const totalPages = data ? Math.ceil(data.count / PAGE_SIZE) : 1;
+  const totalPages = data ? Math.ceil(data.count / ITEM_LIST_PAGE_SIZE) : 1;
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { LoadingState } from "@/components/LoadingState";
+import { PageContainer } from "@/components/PageContainer";
 import { PokemonList } from "./features/PokemonList";
 import { PokemonListHeader } from "./features/PokemonList/PokemonListHeader";
 
@@ -15,7 +16,7 @@ export default async function PokemonPage({
   const selectedGeneration = generation ?? null;
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <PageContainer>
       <Suspense fallback={<LoadingState variant="inline" />}>
         <PokemonListHeader
           selectedTypes={selectedTypes}
@@ -25,6 +26,6 @@ export default async function PokemonPage({
       <Suspense fallback={<LoadingState variant="grid" />}>
         <PokemonList types={selectedTypes} generation={selectedGeneration} />
       </Suspense>
-    </main>
+    </PageContainer>
   );
 }

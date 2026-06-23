@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { capitalize, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { capitalize } from "@/lib/pokeapi";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { LazyImage } from "@/components/LazyImage";
 import { t } from "@/lib/i18n";
@@ -46,7 +47,7 @@ export function PokemonHero({ pokemon }: Props) {
               key={type.name}
               href={`/types/${type.name}`}
               className="rounded-full px-3 py-1 text-xs font-bold uppercase text-white transition-opacity hover:opacity-80"
-              style={{ backgroundColor: TYPE_COLORS[type.name] ?? "#888" }}
+              style={{ backgroundColor: TYPE_COLORS[type.name] ?? DEFAULT_TYPE_COLOR }}
             >
               {type.name}
             </Link>

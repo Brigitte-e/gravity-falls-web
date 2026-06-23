@@ -1,9 +1,10 @@
 import { fetchMoveList } from "@/app/api/moves";
+import { MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
 import { MoveListClient } from "./MoveListClient";
-import { PAGE_SIZE, type MoveListInitialData } from "../../hooks/useMoveListQuery";
+import { type MoveListInitialData } from "../../hooks/useMoveListQuery";
 
 export async function MoveList() {
-  const data = await fetchMoveList(0, PAGE_SIZE);
+  const data = await fetchMoveList(0, MOVE_LIST_PAGE_SIZE);
 
   const initialData: MoveListInitialData = {
     pages: [data],

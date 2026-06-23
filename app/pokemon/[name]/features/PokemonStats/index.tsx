@@ -1,8 +1,7 @@
+import { STAT_MAX } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
 import { t } from "@/lib/i18n";
 import type { StatEntry } from "@/types";
-
-const STAT_MAX = 255;
 
 function StatBar({ name, value }: { name: string; value: number }) {
   return (

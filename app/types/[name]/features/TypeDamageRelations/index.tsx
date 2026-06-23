@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_DAMAGE_RELATIONS, TYPE_COLORS } from "@/lib/constants";
 import { t } from "@/lib/i18n";
 import type { PokemonType, NamedResource } from "@/types";
 
@@ -7,21 +7,12 @@ interface Props {
   type: PokemonType;
 }
 
-const RELATIONS = [
-  { labelKey: "typeDetail.strongAgainst", key: "double_damage_to" },
-  { labelKey: "typeDetail.weakAgainst", key: "double_damage_from" },
-  { labelKey: "typeDetail.notVeryEffective", key: "half_damage_to" },
-  { labelKey: "typeDetail.resists", key: "half_damage_from" },
-  { labelKey: "typeDetail.noEffectAgainst", key: "no_damage_to" },
-  { labelKey: "typeDetail.immuneTo", key: "no_damage_from" },
-] as const;
-
 function TypeBadge({ type }: { type: NamedResource }) {
   return (
     <Link
       href={`/types/${type.name}`}
       className="rounded-full px-3 py-1 text-xs font-bold uppercase text-white transition-opacity hover:opacity-80"
-      style={{ backgroundColor: TYPE_COLORS[type.name] ?? "#888" }}
+      style={{ backgroundColor: TYPE_COLORS[type.name] ?? DEFAULT_TYPE_COLOR }}
     >
       {type.name}
     </Link>
@@ -35,7 +26,7 @@ export function TypeDamageRelations({ type }: Props) {
         {t("typeDetail.damageRelations")}
       </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {RELATIONS.map(({ labelKey, key }) => {
+        {TYPE_DAMAGE_RELATIONS.map(({ labelKey, key }) => {
           const items = type.damage_relations[key];
           return (
             <div key={labelKey}>

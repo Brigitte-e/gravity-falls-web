@@ -6,7 +6,8 @@ import { Pagination } from "@/components/Pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { formatGenerationLabel, t } from "@/lib/i18n";
-import { usePokemonListQuery, PAGE_SIZE, type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
+import { POKEMON_LIST_PAGE_SIZE } from "@/lib/constants";
+import { usePokemonListQuery, type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
 import { useTypesMultiQuery, intersectPokemon } from "../../hooks/useTypeFilterQuery";
 import { useGenerationQuery, filterByGeneration } from "../../hooks/useGenerationFilterQuery";
 import { getIdFromUrl } from "@/lib/pokeapi";
@@ -87,7 +88,7 @@ export function PokemonListClient({
     filteredPokemon = generationData.pokemon_species;
   }
 
-  const totalPages = list ? Math.ceil(list.count / PAGE_SIZE) : 1;
+  const totalPages = list ? Math.ceil(list.count / POKEMON_LIST_PAGE_SIZE) : 1;
 
   return (
     <>

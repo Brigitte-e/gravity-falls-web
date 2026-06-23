@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, X, Check, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { capitalize, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS, TYPE_FILTER_PAGE_SIZE } from "@/lib/constants";
+import { capitalize } from "@/lib/pokeapi";
 import { t } from "@/lib/i18n";
 
 interface TypeOption {
@@ -16,12 +17,10 @@ interface TypeMultiSelectProps {
   onChange: (selected: string[]) => void;
 }
 
-const PAGE_SIZE = 10;
-
 export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = useState(TYPE_FILTER_PAGE_SIZE);
   const containerRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -33,14 +32,14 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
   const hasMore = visibleCount < filtered.length;
 
   useEffect(() => {
-    setTimeout(() => setVisibleCount(PAGE_SIZE), 0);
+    setTimeout(() => setVisibleCount(TYPE_FILTER_PAGE_SIZE), 0);
   }, [search]);
 
   useEffect(() => {
     if (open) {
       setTimeout(() => searchRef.current?.focus(), 0);
     } else {
-      setTimeout(() => { setSearch(""); setVisibleCount(PAGE_SIZE); }, 0);
+      setTimeout(() => { setSearch(""); setVisibleCount(TYPE_FILTER_PAGE_SIZE); }, 0);
     }
   }, [open]);
 
@@ -58,7 +57,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
     const el = listRef.current;
     if (!el || !hasMore) return;
     if (el.scrollTop + el.clientHeight >= el.scrollHeight - 40) {
-      setVisibleCount((c) => c + PAGE_SIZE);
+      setVisibleCount((c) => c + TYPE_FILTER_PAGE_SIZE);
     }
   }
 
@@ -161,7 +160,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
             )}
             {visible.map((type) => {
               const isSelected = selected.includes(type.name);
-              const color = TYPE_COLORS[type.name] ?? "#888";
+              const color = TYPE_COLORS[type.name] ?? DEFAULT_TYPE_COLOR;
               return (
                 <li
                   key={type.name}
@@ -194,7 +193,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
 }
 
 function TypeBadge({ name, onRemove }: { name: string; onRemove: () => void }) {
-  const color = TYPE_COLORS[name] ?? "#888";
+  const color = TYPE_COLORS[name] ?? DEFAULT_TYPE_COLOR;
   return (
     <span
       className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold uppercase text-white"

@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { LazyImage } from "@/components/LazyImage";
 import { cn } from "@/lib/utils";
-import { capitalize, getPokemonSprite, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { capitalize, getPokemonSprite } from "@/lib/pokeapi";
 
 export interface PokemonCardProps {
   id: number;
@@ -52,7 +53,7 @@ export function CharacterCard({ id, name, types = [], className, fetchPriority }
                 <span
                   key={t}
                   className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-white"
-                  style={{ backgroundColor: TYPE_COLORS[t] ?? "#888" }}
+                  style={{ backgroundColor: TYPE_COLORS[t] ?? DEFAULT_TYPE_COLOR }}
                 >
                   {t}
                 </span>

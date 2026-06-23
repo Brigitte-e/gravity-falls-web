@@ -1,5 +1,6 @@
 import { fetchType } from "@/app/api/types";
 import { ErrorState } from "@/components/ErrorState";
+import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
 import { TypeHeader } from "./features/TypeHeader";
 import { TypeDamageRelations } from "./features/TypeDamageRelations";
@@ -18,21 +19,21 @@ export default async function TypeDetailPage({ params }: Props) {
     type = await fetchType(name);
   } catch (err) {
     return (
-      <main className="mx-auto max-w-5xl px-6 py-10">
+      <PageContainer>
         <PageHeader backHref="/types" backLabel={t("typeDetail.backToTypes")} title="" />
         <ErrorState message={err instanceof Error ? err.message : undefined} />
-      </main>
+      </PageContainer>
     );
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
+    <PageContainer>
       <PageHeader backHref="/types" backLabel={t("typeDetail.backToTypes")} title="" />
       <div className="flex flex-col gap-6">
         <TypeHeader name={type.name} />
         <TypeDamageRelations type={type} />
         <TypeMoves moves={type.moves} />
       </div>
-    </main>
+    </PageContainer>
   );
 }

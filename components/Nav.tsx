@@ -2,17 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { NAV_LINKS } from "@/lib/constants";
 import { t } from "@/lib/i18n";
-
-const LINKS = [
-  { href: "/pokemon", labelKey: "nav.pokemon" },
-  { href: "/types", labelKey: "nav.types" },
-  { href: "/moves", labelKey: "nav.moves" },
-  { href: "/items", labelKey: "nav.items" },
-  { href: "/team-builder", labelKey: "nav.teamBuilder" },
-  { href: "/favorites", labelKey: "nav.favorites" },
-] as const;
+import { cn } from "@/lib/utils";
 
 export function Nav() {
   const pathname = usePathname();
@@ -29,7 +21,7 @@ export function Nav() {
         </Link>
 
         <nav className="flex items-center gap-1 overflow-x-auto">
-          {LINKS.map(({ href, labelKey }) => {
+          {NAV_LINKS.map(({ href, labelKey }) => {
             const active = pathname === href || pathname.startsWith(href + "/");
             return (
               <Link

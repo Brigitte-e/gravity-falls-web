@@ -1,5 +1,6 @@
 import { fetchPokemon } from "@/app/api/pokemon";
 import { ErrorState } from "@/components/ErrorState";
+import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
 import { PokemonHero } from "./features/PokemonHero";
 import { PokemonStats } from "./features/PokemonStats";
@@ -19,15 +20,15 @@ export default async function PokemonDetailPage({ params }: Props) {
     pokemon = await fetchPokemon(name);
   } catch (err) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-10">
+      <PageContainer>
         <PageHeader backHref="/pokemon" backLabel={t("pokemonDetail.backToPokedex")} title="" />
         <ErrorState message={err instanceof Error ? err.message : undefined} />
-      </main>
+      </PageContainer>
     );
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-10">
+    <PageContainer>
       <PageHeader backHref="/pokemon" backLabel={t("pokemonDetail.backToPokedex")} title="" />
       <div className="flex flex-col gap-6">
         <PokemonHero pokemon={pokemon} />
@@ -35,6 +36,6 @@ export default async function PokemonDetailPage({ params }: Props) {
         <PokemonAbilities abilities={pokemon.abilities} />
         <PokemonMoves moves={pokemon.moves} />
       </div>
-    </main>
+    </PageContainer>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchMove, capitalize, TYPE_COLORS } from "@/lib/pokeapi";
+import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
+import { fetchMove, capitalize } from "@/lib/pokeapi";
 import { t } from "@/lib/i18n";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -23,7 +24,7 @@ export function MoveModal({ moveName, onClose }: MoveModalProps) {
     queryFn: () => fetchMove(moveName),
   });
 
-  const typeColor = data ? (TYPE_COLORS[data.type.name] ?? "#888") : undefined;
+  const typeColor = data ? (TYPE_COLORS[data.type.name] ?? DEFAULT_TYPE_COLOR) : undefined;
   const description = data
     ? (data.effect_entries.find((e) => e.language.name === "en")?.short_effect ??
        data.effect_entries[0]?.short_effect ??

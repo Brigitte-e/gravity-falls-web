@@ -1,10 +1,9 @@
 "use client";
 
+import { ITEM_LIST_PAGE_SIZE } from "@/lib/constants";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { fetchItemList } from "@/app/api/items";
 import type { ListResponse } from "@/types";
-
-export const PAGE_SIZE = 30;
 
 export interface ItemListInitialData {
   pages: [ListResponse];
@@ -17,11 +16,11 @@ interface UseItemListQueryOptions {
 }
 
 export function useItemListQuery({ page, initialData }: UseItemListQueryOptions) {
-  const offset = (page - 1) * PAGE_SIZE;
+  const offset = (page - 1) * ITEM_LIST_PAGE_SIZE;
 
   return useQuery({
     queryKey: ["item-list", page],
-    queryFn: () => fetchItemList(offset, PAGE_SIZE),
+    queryFn: () => fetchItemList(offset, ITEM_LIST_PAGE_SIZE),
     placeholderData: keepPreviousData,
     initialData: page === 1 ? initialData?.pages[0] : undefined,
   });
