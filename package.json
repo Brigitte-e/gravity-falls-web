@@ -13,7 +13,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.17",
@@ -44,8 +45,11 @@
     "cypress": "^13.17.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "git-format-staged": "^4.0.1",
+    "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "prettier": "^3.8.4",
     "storybook": "^10.4.6",
     "tailwindcss": "^4",
     "typescript": "^5"
