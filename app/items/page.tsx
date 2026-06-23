@@ -2,12 +2,12 @@
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useState } from "react";
-import Image from "next/image";
 import { fetchItemList, capitalize, getItemSprite } from "@/lib/pokeapi";
 import { Pagination } from "@/components/Pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { ItemModal } from "@/components/ItemModal";
+import { FadeImage } from "@/components/FadeImage";
 
 const PAGE_SIZE = 30;
 
@@ -49,12 +49,12 @@ export default function ItemsPage() {
                   onClick={() => setOpenItem(item.name)}
                   className="w-full text-left rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium hover:border-pk-yellow/40 hover:bg-card/80 transition-colors cursor-pointer flex items-center gap-2"
                 >
-                  <Image
+                  <FadeImage
                     src={getItemSprite(item.name)}
                     alt=""
                     width={24}
                     height={24}
-                    className="object-contain shrink-0"
+                    className="object-contain"
                   />
                   {capitalize(item.name)}
                 </button>

@@ -8,6 +8,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { Badge } from "@/components/ui/badge";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { FadeImage } from "@/components/FadeImage";
 
 const STAT_MAX = 255;
 
@@ -66,10 +67,14 @@ export default function PokemonDetailPage({
           {/* Hero */}
           <div className="flex items-start gap-6 rounded-2xl border border-border bg-card p-6 shadow-lg shadow-black/30">
             {sprite && (
-              <img
+              <FadeImage
                 src={sprite}
                 alt={pokemon.name}
-                className="h-40 w-40 object-contain drop-shadow-2xl shrink-0"
+                width={160}
+                height={160}
+                wrapperClassName="h-40 w-40"
+                className="object-contain drop-shadow-2xl"
+                unoptimized
               />
             )}
             <div className="flex flex-col gap-3 pt-1 flex-1">

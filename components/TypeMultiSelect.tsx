@@ -200,13 +200,16 @@ function TypeBadge({ name, onRemove }: { name: string; onRemove: () => void }) {
       style={{ backgroundColor: color }}
     >
       {name}
-      <button
+      <span
+        role="button"
+        tabIndex={0}
         onClick={(e) => { e.stopPropagation(); onRemove(); }}
+        onKeyDown={(e) => e.key === "Enter" && (e.stopPropagation(), onRemove())}
         className="opacity-70 hover:opacity-100"
         aria-label={`Remove ${name}`}
       >
         <X size={10} />
-      </button>
+      </span>
     </span>
   );
 }

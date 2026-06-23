@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { FadeImage } from "@/components/FadeImage";
 import { cn } from "@/lib/utils";
 import { capitalize, getPokemonSprite, TYPE_COLORS } from "@/lib/pokeapi";
 
@@ -27,10 +28,13 @@ export function CharacterCard({ id, name, types = [], className }: PokemonCardPr
         className="flex flex-col items-center gap-3 p-5 text-center"
       >
         <div className="relative h-24 w-24">
-          <img
+          <FadeImage
             src={sprite}
             alt={name}
-            className="h-24 w-24 object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+            width={96}
+            height={96}
+            wrapperClassName="h-24 w-24"
+            className="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
           />
         </div>
 
