@@ -17,11 +17,14 @@ interface UseMoveListQueryOptions {
 
 export function useMoveListQuery({ page, initialData }: UseMoveListQueryOptions) {
   const offset = (page - 1) * MOVE_LIST_PAGE_SIZE;
+  const matchedInitialData =
+    page === initialData?.pageParams[0] ? initialData?.pages[0] : undefined;
 
   return useQuery({
     queryKey: ["move-list", page],
     queryFn: () => fetchMoveList(offset, MOVE_LIST_PAGE_SIZE),
     placeholderData: keepPreviousData,
-    initialData: page === 1 ? initialData?.pages[0] : undefined,
+    initialData: matchedInitialData,
+    initialDataUpdatedAt: matchedInitialData ? Date.now() : undefined,
   });
 }

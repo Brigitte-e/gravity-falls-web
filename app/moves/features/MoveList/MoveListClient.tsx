@@ -7,6 +7,7 @@ import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { MoveModal } from "@/components/MoveModal";
 import { MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
+import { usePaginationUrl } from "@/hooks/usePaginationUrl";
 import { useMoveListQuery } from "../../hooks/useMoveListQuery";
 import type { MoveListInitialData } from "../../hooks/useMoveListQuery";
 
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export function MoveListClient({ initialData }: Props) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePaginationUrl();
   const [openMove, setOpenMove] = useState<string | null>(null);
 
   const { data, isLoading, isError, error } = useMoveListQuery({ page, initialData });
@@ -54,8 +55,9 @@ export function MoveListClient({ initialData }: Props) {
               totalPages={totalPages}
               hasPrevious={!!data.previous}
               hasNext={!!data.next}
-              onPrevious={() => setPage((p) => Math.max(1, p - 1))}
-              onNext={() => setPage((p) => p + 1)}
+              onPrevious={() => setPage(Math.max(1, page - 1))}
+              onNext={() => setPage(page + 1)}
+              onPageChange={setPage}
             />
           </div>
         </>

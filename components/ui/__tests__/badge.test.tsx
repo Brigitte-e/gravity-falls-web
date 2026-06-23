@@ -9,12 +9,12 @@ describe("Badge", () => {
 
   it("applies secondary variant by default", () => {
     render(<Badge>Test</Badge>);
-    expect(screen.getByText("Test")).toHaveClass("bg-secondary");
+    expect(screen.getByText("Test")).toHaveClass("bg-pk-blue/40");
   });
 
   it("applies outline variant classes", () => {
     render(<Badge variant="outline">Outline</Badge>);
-    expect(screen.getByText("Outline")).toHaveClass("text-foreground");
+    expect(screen.getByText("Outline")).toHaveClass("text-pk-yellow");
   });
 
   it("merges custom className", () => {

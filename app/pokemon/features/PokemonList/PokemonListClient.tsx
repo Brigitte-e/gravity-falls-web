@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { CharacterCard } from "@/components/CharacterCard";
 import { Pagination } from "@/components/Pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { formatGenerationLabel, t } from "@/lib/i18n";
 import { POKEMON_LIST_PAGE_SIZE } from "@/lib/constants";
+import { usePaginationUrl } from "@/hooks/usePaginationUrl";
 import { usePokemonListQuery, type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
 import { useTypesMultiQuery, intersectPokemon } from "../../hooks/useTypeFilterQuery";
 import { useGenerationQuery, filterByGeneration } from "../../hooks/useGenerationFilterQuery";
@@ -14,7 +15,7 @@ import { getIdFromUrl } from "@/lib/pokeapi";
 import type { Generation, NamedResource, PokemonType } from "@/types";
 
 interface Props {
-  initialData: PokemonListInitialData;
+  initialData?: PokemonListInitialData;
   types: string[];
   generation: string | null;
   initialTypeData: PokemonType[];
@@ -37,7 +38,7 @@ export function PokemonListClient({
   initialTypeData = [],
   initialGenerationData,
 }: Props) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePaginationUrl();
   const isFiltered = types.length > 0 || !!generation;
 
   const {
@@ -89,6 +90,22 @@ export function PokemonListClient({
   }
 
   const totalPages = list ? Math.ceil(list.count / POKEMON_LIST_PAGE_SIZE) : 1;
+  const filteredTotalPages = filteredPokemon
+    ? Math.max(1, Math.ceil(filteredPokemon.length / POKEMON_LIST_PAGE_SIZE))
+    : 1;
+  const paginatedFilteredPokemon = filteredPokemon
+    ? filteredPokemon.slice(
+        (page - 1) * POKEMON_LIST_PAGE_SIZE,
+        page * POKEMON_LIST_PAGE_SIZE,
+      )
+    : [];
+
+  useEffect(() => {
+    if (!isFiltered || filteredPokemon === null) return;
+    if (page > filteredTotalPages) {
+      setPage(filteredTotalPages);
+    }
+  }, [isFiltered, filteredPokemon, page, filteredTotalPages, setPage]);
 
   return (
     <>
@@ -109,17 +126,29 @@ export function PokemonListClient({
           ) : (
             <>
               <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                {filteredPokemon.slice(0, 60).map((p) => (
+                {paginatedFilteredPokemon.map((p, i) => (
                   <li key={p.name}>
-                    <CharacterCard id={getIdFromUrl(p.url)} name={p.name} types={types} />
+                    <CharacterCard
+                      id={getIdFromUrl(p.url)}
+                      name={p.name}
+                      types={types}
+                      fetchPriority={i === 0 && page === 1 ? "high" : undefined}
+                    />
                   </li>
                 ))}
               </ul>
-              {filteredPokemon.length > 60 && (
-                <p className="mt-4 text-sm text-muted-foreground text-center">
-                  {t("pokemonList.moreCount", { count: filteredPokemon.length - 60 })}
-                </p>
-              )}
+
+              <div className="mt-10 flex justify-center">
+                <Pagination
+                  page={page}
+                  totalPages={filteredTotalPages}
+                  hasPrevious={page > 1}
+                  hasNext={page < filteredTotalPages}
+                  onPrevious={() => setPage(Math.max(1, page - 1))}
+                  onNext={() => setPage(page + 1)}
+                  onPageChange={setPage}
+                />
+              </div>
             </>
           )}
         </section>
@@ -151,8 +180,9 @@ export function PokemonListClient({
               totalPages={totalPages}
               hasPrevious={!!list.previous}
               hasNext={!!list.next}
-              onPrevious={() => setPage((p) => Math.max(1, p - 1))}
-              onNext={() => setPage((p) => p + 1)}
+              onPrevious={() => setPage(Math.max(1, page - 1))}
+              onNext={() => setPage(page + 1)}
+              onPageChange={setPage}
             />
           </div>
         </>

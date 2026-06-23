@@ -12,6 +12,7 @@ const meta: Meta<typeof Pagination> = {
     hasNext: true,
     onPrevious: () => {},
     onNext: () => {},
+    onPageChange: () => {},
   },
 };
 

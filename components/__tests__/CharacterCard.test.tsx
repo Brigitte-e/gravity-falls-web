@@ -1,6 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { CharacterCard } from "../CharacterCard";
 
+jest.mock("@/components/LazyImage", () => ({
+  LazyImage: ({ src, alt }: { src: string; alt: string }) => (
+    <img src={src} alt={alt} />
+  ),
+}));
+
 jest.mock("next/link", () => {
   const MockLink = ({ children, href }: { children: React.ReactNode; href: string }) => (
     <a href={href}>{children}</a>

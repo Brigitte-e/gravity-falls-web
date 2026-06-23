@@ -18,12 +18,15 @@ interface UsePokemonListQueryOptions {
 
 export function usePokemonListQuery({ page, enabled = true, initialData }: UsePokemonListQueryOptions) {
   const offset = (page - 1) * POKEMON_LIST_PAGE_SIZE;
+  const matchedInitialData =
+    page === initialData?.pageParams[0] ? initialData?.pages[0] : undefined;
 
   return useQuery({
     queryKey: ["pokemon-list", page],
     queryFn: () => fetchPokemonList(offset, POKEMON_LIST_PAGE_SIZE),
     placeholderData: keepPreviousData,
     enabled,
-    initialData: page === 1 ? initialData?.pages[0] : undefined,
+    initialData: matchedInitialData,
+    initialDataUpdatedAt: matchedInitialData ? Date.now() : undefined,
   });
 }

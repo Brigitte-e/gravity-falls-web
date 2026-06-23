@@ -17,11 +17,14 @@ interface UseItemListQueryOptions {
 
 export function useItemListQuery({ page, initialData }: UseItemListQueryOptions) {
   const offset = (page - 1) * ITEM_LIST_PAGE_SIZE;
+  const matchedInitialData =
+    page === initialData?.pageParams[0] ? initialData?.pages[0] : undefined;
 
   return useQuery({
     queryKey: ["item-list", page],
     queryFn: () => fetchItemList(offset, ITEM_LIST_PAGE_SIZE),
     placeholderData: keepPreviousData,
-    initialData: page === 1 ? initialData?.pages[0] : undefined,
+    initialData: matchedInitialData,
+    initialDataUpdatedAt: matchedInitialData ? Date.now() : undefined,
   });
 }

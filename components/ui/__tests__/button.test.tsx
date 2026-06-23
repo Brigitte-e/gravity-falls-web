@@ -29,6 +29,6 @@ describe("Button", () => {
 
   it("applies outline variant classes", () => {
     render(<Button variant="outline">Outline</Button>);
-    expect(screen.getByRole("button")).toHaveClass("border");
+    expect(screen.getByRole("button")).toHaveClass("border-2", "border-pk-yellow/60");
   });
 });

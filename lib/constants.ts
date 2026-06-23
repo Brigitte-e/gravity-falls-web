@@ -3,8 +3,8 @@ export const POKE_SPRITES_BASE_URL = process.env.NEXT_PUBLIC_POKE_SPRITES_URL;
 export const API_REVALIDATE_SECONDS = 3600;
 
 export const POKEMON_LIST_PAGE_SIZE = 24;
-export const ITEM_LIST_PAGE_SIZE = 30;
-export const MOVE_LIST_PAGE_SIZE = 30;
+export const ITEM_LIST_PAGE_SIZE = 28;
+export const MOVE_LIST_PAGE_SIZE = 28;
 export const TYPE_FILTER_PAGE_SIZE = 10;
 
 export const STAT_MAX = 255;

@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { fetchTypeList } from "@/app/api/types";
 import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
+import type { ListResponse } from "@/types";
 
-export async function TypeGrid() {
-  const data = await fetchTypeList();
+interface Props {
+  data: ListResponse;
+}
+
+export function TypeGrid({ data }: Props) {
   const types = data.results.filter((t) => t.name !== "unknown" && t.name !== "stellar");
 
   return (

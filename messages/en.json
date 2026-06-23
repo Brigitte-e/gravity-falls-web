@@ -20,6 +20,8 @@
     "close": "Close",
     "previous": "← Previous",
     "next": "Next →",
+    "pageOfTotal": "{page} / {total}",
+    "pagination": "Pagination",
     "noDescription": "No description available."
   },
   "favorites": {

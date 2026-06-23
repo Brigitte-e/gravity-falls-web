@@ -16,13 +16,16 @@ export function useTypeListQuery() {
 
 export function useTypesMultiQuery(selectedTypes: string[], initialData?: PokemonType[]) {
   const sorted = [...selectedTypes].sort();
+  const matchedInitialData =
+    initialData && initialData.length === sorted.length ? initialData : undefined;
 
   return useQuery({
     queryKey: ["types-multi", sorted],
     queryFn: () => Promise.all(sorted.map(fetchType)),
     staleTime: 5 * 60 * 1000,
     enabled: selectedTypes.length > 0,
-    initialData: initialData && initialData.length === sorted.length ? initialData : undefined,
+    initialData: matchedInitialData,
+    initialDataUpdatedAt: matchedInitialData ? Date.now() : undefined,
   });
 }
 

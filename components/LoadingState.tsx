@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import { ITEM_LIST_PAGE_SIZE, MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
 import { t } from "@/lib/i18n";
 
 export type LoadingStateVariant = "grid" | "detail" | "type-detail" | "item-list" | "move-list" | "type-grid" | "inline";
@@ -33,7 +34,7 @@ export function LoadingState({ variant = "inline" }: LoadingStateProps) {
     return (
       <div className="w-full">
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {Array.from({ length: ITEM_LIST_PAGE_SIZE }).map((_, i) => (
             <li key={i}>
               <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3">
                 <Skeleton className="h-6 w-6 rounded-full shrink-0" />
@@ -50,7 +51,7 @@ export function LoadingState({ variant = "inline" }: LoadingStateProps) {
     return (
       <div className="w-full">
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {Array.from({ length: MOVE_LIST_PAGE_SIZE }).map((_, i) => (
             <li key={i}>
               <Skeleton className="h-11 w-full rounded-xl" />
             </li>
