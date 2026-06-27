@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { getVisiblePages } from "@/lib/pagination";
+import { getVisiblePages } from "./pagination";
 import { t } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 export interface PaginationProps {
   page: number;

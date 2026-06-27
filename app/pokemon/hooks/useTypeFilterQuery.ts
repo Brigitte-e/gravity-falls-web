@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchTypeList, fetchType } from "@/app/api/types";
-import type { PokemonType, NamedResource } from "@/types";
 
 export function useTypeListQuery() {
   return useQuery({
@@ -14,28 +13,13 @@ export function useTypeListQuery() {
   });
 }
 
-export function useTypesMultiQuery(selectedTypes: string[], initialData?: PokemonType[]) {
+export function useTypesMultiQuery(selectedTypes: string[]) {
   const sorted = [...selectedTypes].sort();
-  const matchedInitialData =
-    initialData && initialData.length === sorted.length ? initialData : undefined;
 
   return useQuery({
     queryKey: ["types-multi", sorted],
     queryFn: () => Promise.all(sorted.map(fetchType)),
     staleTime: 5 * 60 * 1000,
     enabled: selectedTypes.length > 0,
-    initialData: matchedInitialData,
-    initialDataUpdatedAt: matchedInitialData ? () => Date.now() : undefined,
   });
-}
-
-export function intersectPokemon(typeDataList: PokemonType[]): NamedResource[] {
-  if (typeDataList.length === 0) return [];
-  const [first, ...rest] = typeDataList;
-  const otherSets = rest.map(
-    (td) => new Set(td.pokemon.map(({ pokemon: p }) => p.name))
-  );
-  return first.pokemon
-    .filter(({ pokemon: p }) => otherSets.every((s) => s.has(p.name)))
-    .map(({ pokemon: p }) => p);
 }

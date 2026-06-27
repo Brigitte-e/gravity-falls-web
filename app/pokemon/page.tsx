@@ -1,13 +1,12 @@
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { PageContainer } from "@/components/PageContainer";
-import { parsePageParam } from "@/lib/pagination";
+import { parsePageParam } from "@/components/pagination/pagination";
 import { fetchPokemonList } from "@/app/api/pokemon";
 import { fetchType } from "@/app/api/types";
 import { fetchGeneration } from "@/app/api/generations";
 import { POKEMON_LIST_PAGE_SIZE } from "@/lib/constants";
-import { PokemonList } from "./features/PokemonList";
-import { PokemonListHeader } from "./features/PokemonList/PokemonListHeader";
-import type { PokemonListInitialData } from "./hooks/usePokemonListQuery";
-import type { PokemonType } from "@/types";
+import { PokemonListClient } from "./features/pokemon-list";
+import { PokemonFilters } from "./features/pokemon-filters";
 
 export default async function PokemonPage({
   searchParams,
@@ -24,29 +23,38 @@ export default async function PokemonPage({
   const sortedTypes = [...selectedTypes].sort();
   const offset = (initialPage - 1) * POKEMON_LIST_PAGE_SIZE;
 
-  const [listData, generationData, ...typeData] = await Promise.all([
-    isFiltered ? Promise.resolve(null) : fetchPokemonList(offset, POKEMON_LIST_PAGE_SIZE),
-    selectedGeneration ? fetchGeneration(selectedGeneration) : Promise.resolve(null),
-    ...sortedTypes.map(fetchType),
-  ]);
+  const queryClient = new QueryClient();
 
-  const initialData: PokemonListInitialData | undefined = listData
-    ? { pages: [listData], pageParams: [initialPage] }
-    : undefined;
+  await Promise.all([
+    !isFiltered
+      ? queryClient.prefetchQuery({
+          queryKey: ["pokemon-list", initialPage],
+          queryFn: () => fetchPokemonList(offset, POKEMON_LIST_PAGE_SIZE),
+        })
+      : Promise.resolve(),
+    selectedGeneration
+      ? queryClient.prefetchQuery({
+          queryKey: ["generation", selectedGeneration],
+          queryFn: () => fetchGeneration(selectedGeneration),
+        })
+      : Promise.resolve(),
+    sortedTypes.length > 0
+      ? queryClient.prefetchQuery({
+          queryKey: ["types-multi", sortedTypes],
+          queryFn: () => Promise.all(sortedTypes.map(fetchType)),
+        })
+      : Promise.resolve(),
+  ]);
 
   return (
     <PageContainer>
-      <PokemonListHeader
+      <PokemonFilters
         selectedTypes={selectedTypes}
         selectedGeneration={selectedGeneration}
       />
-      <PokemonList
-        initialData={initialData}
-        types={selectedTypes}
-        generation={selectedGeneration}
-        initialTypeData={typeData as PokemonType[]}
-        initialGenerationData={generationData ?? undefined}
-      />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PokemonListClient types={selectedTypes} generation={selectedGeneration} />
+      </HydrationBoundary>
     </PageContainer>
   );
 }

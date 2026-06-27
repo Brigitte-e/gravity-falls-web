@@ -10,7 +10,7 @@
     "types": "Types",
     "moves": "Moves",
     "items": "Items",
-    "teamBuilder": "Team Builder",
+    "pokemonOfTheDay": "Pokémon of the Day",
     "favorites": "Favorites"
   },
   "common": {
@@ -72,9 +72,9 @@
     "favorites": {
       "title": "Favorites"
     },
-    "teamBuilder": {
-      "title": "Team Builder",
-      "subtitle": "Build your team of up to 6 Pokémon."
+    "pokemonOfTheDay": {
+      "title": "Pokémon of the Day",
+      "subtitle": "Discover a new Pokémon every day."
     },
     "pokedex": {
       "title": "Pokédex"
@@ -112,15 +112,13 @@
     "immuneTo": "Immune to (0× from)",
     "moves": "Moves"
   },
-  "teamBuilder": {
-    "teamFull": "Your team is full (max 6).",
-    "alreadyOnTeam": "{name} is already on your team.",
-    "inputPlaceholder": "Enter Pokémon name (e.g. pikachu)",
-    "add": "Add",
-    "emptySlot": "?",
-    "clearTeam": "Clear team",
-    "remove": "Remove",
-    "notFound": "Not found"
+  "pokemonOfTheDay": {
+    "reveal": "Reveal today's Pokémon",
+    "alreadyRevealed": "Already revealed today",
+    "viewDetails": "View details",
+    "hint": "Click the button to reveal your Pokémon of the day. Come back tomorrow for a new one!",
+    "mystery": "???",
+    "mysteryType": "?????"
   },
   "api": {
     "pokeApiError": "PokeAPI error {status}: {path}"

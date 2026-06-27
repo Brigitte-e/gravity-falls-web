@@ -2,24 +2,19 @@
 
 import { useState } from "react";
 import { capitalize } from "@/lib/pokeapi";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { MoveModal } from "@/components/MoveModal";
 import { MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
 import { usePaginationUrl } from "@/hooks/usePaginationUrl";
-import { useMoveListQuery } from "../../hooks/useMoveListQuery";
-import type { MoveListInitialData } from "../../hooks/useMoveListQuery";
+import { useMoveListQuery } from "@/app/moves/hooks/useMoveListQuery";
 
-interface Props {
-  initialData: MoveListInitialData;
-}
-
-export function MoveListClient({ initialData }: Props) {
+export function MoveListClient() {
   const [page, setPage] = usePaginationUrl();
   const [openMove, setOpenMove] = useState<string | null>(null);
 
-  const { data, isLoading, isError, error } = useMoveListQuery({ page, initialData });
+  const { data, isLoading, isError, error } = useMoveListQuery({ page });
 
   const totalPages = data ? Math.ceil(data.count / MOVE_LIST_PAGE_SIZE) : 1;
 

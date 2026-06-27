@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 import { useFavorites } from "@/hooks/useFavorites";
 import { t } from "@/lib/i18n";
-import type { FavoriteEntry } from "@/hooks/useFavorites";
+import type { FavoriteEntry } from "@/app/favorites/utils/favoriteEntry";
 
 export type { FavoriteEntry };
 

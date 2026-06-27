@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { LazyImage } from "@/components/LazyImage";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
 import { capitalize, getPokemonSprite } from "@/lib/pokeapi";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { GenerationSelect } from "@/components/GenerationSelect";
-import { useGenerationListQuery } from "../../hooks/useGenerationFilterQuery";
+import { useGenerationListQuery } from "@/app/pokemon/hooks/useGenerationFilterQuery";
 
 interface Props {
   selected: string | null;

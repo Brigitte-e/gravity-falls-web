@@ -2,10 +2,10 @@ import { fetchPokemon } from "@/app/api/pokemon";
 import { ErrorState } from "@/components/ErrorState";
 import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
-import { PokemonHero } from "./features/PokemonHero";
-import { PokemonStats } from "./features/PokemonStats";
-import { PokemonAbilities } from "./features/PokemonAbilities";
-import { PokemonMoves } from "./features/PokemonMoves";
+import { PokemonHero } from "./features/pokemon-hero";
+import { PokemonStats } from "./features/pokemon-stats";
+import { PokemonAbilities } from "./features/pokemon-abilities";
+import { PokemonMoves } from "./features/pokemon-moves";
 import { t } from "@/lib/i18n";
 
 interface Props {

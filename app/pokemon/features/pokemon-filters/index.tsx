@@ -2,8 +2,8 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { useCallback } from "react";
-import { TypeFilter } from "../TypeFilter";
-import { GenerationFilter } from "../GenerationFilter";
+import { TypeFilter } from "@/app/pokemon/features/type-filter";
+import { GenerationFilter } from "@/app/pokemon/features/generation-filter";
 import { PageHeader } from "@/components/PageHeader";
 import { t } from "@/lib/i18n";
 
@@ -20,7 +20,7 @@ function buildQueryString(types: string[], generation: string | null): string {
   return qs ? `?${qs}` : "";
 }
 
-export function PokemonListHeader({ selectedTypes, selectedGeneration }: Props) {
+export function PokemonFilters({ selectedTypes, selectedGeneration }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 

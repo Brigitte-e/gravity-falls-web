@@ -1,4 +1,4 @@
-import { getVisiblePages, parsePageParam } from "../pagination";
+import { getVisiblePages, parsePageParam } from "../pagination/pagination";
 
 describe("parsePageParam", () => {
   it("returns 1 for missing or invalid values", () => {

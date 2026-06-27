@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { parsePageParam } from "@/lib/pagination";
+import { parsePageParam } from "@/components/pagination/pagination";
 
 export function usePaginationUrl(): [number, (page: number) => void] {
   const router = useRouter();

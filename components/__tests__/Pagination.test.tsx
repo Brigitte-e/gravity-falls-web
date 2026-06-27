@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Pagination } from "../Pagination";
+import { Pagination } from "../pagination/index";
 import { t } from "@/lib/i18n";
 
 const defaultProps = {

@@ -1,11 +1,8 @@
-import { MoveList } from "./features/MoveList";
 import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
-import { fetchMoveList } from "@/app/api/moves";
-import { MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
-import { parsePageParam } from "@/lib/pagination";
+import { parsePageParam } from "@/components/pagination/pagination";
 import { t } from "@/lib/i18n";
-import type { MoveListInitialData } from "./hooks/useMoveListQuery";
+import { MoveList } from "./features/move-list";
 
 export default async function MovesPage({
   searchParams,
@@ -14,21 +11,14 @@ export default async function MovesPage({
 }) {
   const { page } = await searchParams;
   const initialPage = parsePageParam(page);
-  const offset = (initialPage - 1) * MOVE_LIST_PAGE_SIZE;
-  const data = await fetchMoveList(offset, MOVE_LIST_PAGE_SIZE);
-
-  const initialData: MoveListInitialData = {
-    pages: [data],
-    pageParams: [initialPage],
-  };
 
   return (
     <PageContainer>
       <PageHeader
         title={t("pages.moves.title")}
-        subtitle={t("pages.moves.subtitle", { count: data.count.toLocaleString() })}
+        subtitle={t("pages.moves.subtitle")}
       />
-      <MoveList initialData={initialData} />
+      <MoveList initialPage={initialPage} />
     </PageContainer>
   );
 }

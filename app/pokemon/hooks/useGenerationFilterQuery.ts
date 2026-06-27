@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchGenerationList, fetchGeneration } from "@/app/api/generations";
-import type { Generation, NamedResource } from "@/types";
 
 export function useGenerationListQuery() {
   return useQuery({
@@ -18,21 +17,11 @@ export function useGenerationListQuery() {
   });
 }
 
-export function useGenerationQuery(generation: string | null, initialData?: Generation) {
+export function useGenerationQuery(generation: string | null) {
   return useQuery({
     queryKey: ["generation", generation],
     queryFn: () => fetchGeneration(generation!),
     staleTime: 5 * 60 * 1000,
     enabled: !!generation,
-    initialData,
-    initialDataUpdatedAt: initialData ? () => Date.now() : undefined,
   });
-}
-
-export function filterByGeneration(
-  pokemon: NamedResource[],
-  species: NamedResource[],
-): NamedResource[] {
-  const speciesSet = new Set(species.map((s) => s.name));
-  return pokemon.filter((p) => speciesSet.has(p.name));
 }

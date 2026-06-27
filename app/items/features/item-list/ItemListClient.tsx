@@ -2,24 +2,20 @@
 
 import { useState } from "react";
 import { capitalize, getItemSprite } from "@/lib/pokeapi";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import { ItemModal } from "@/components/ItemModal";
 import { LazyImage } from "@/components/LazyImage";
 import { ITEM_LIST_PAGE_SIZE } from "@/lib/constants";
 import { usePaginationUrl } from "@/hooks/usePaginationUrl";
-import { useItemListQuery, type ItemListInitialData } from "../../hooks/useItemListQuery";
+import { useItemListQuery } from "@/app/items/hooks/useItemListQuery";
 
-interface Props {
-  initialData: ItemListInitialData;
-}
-
-export function ItemListClient({ initialData }: Props) {
+export function ItemListClient() {
   const [page, setPage] = usePaginationUrl();
   const [openItem, setOpenItem] = useState<string | null>(null);
 
-  const { data, isLoading, isError, error } = useItemListQuery({ page, initialData });
+  const { data, isLoading, isError, error } = useItemListQuery({ page });
 
   const totalPages = data ? Math.ceil(data.count / ITEM_LIST_PAGE_SIZE) : 1;
 

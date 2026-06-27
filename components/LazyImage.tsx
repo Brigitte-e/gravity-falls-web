@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Image, { type ImageProps } from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 type LazyImageProps = Omit<ImageProps, "onLoad" | "onError"> & {
   wrapperClassName?: string;

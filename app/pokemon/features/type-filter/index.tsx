@@ -1,7 +1,7 @@
 "use client";
 
 import { TypeMultiSelect } from "@/components/TypeMultiSelect";
-import { useTypeListQuery } from "../../hooks/useTypeFilterQuery";
+import { useTypeListQuery } from "@/app/pokemon/hooks/useTypeFilterQuery";
 
 interface Props {
   selected: string[];

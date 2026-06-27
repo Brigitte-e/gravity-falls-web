@@ -30,7 +30,7 @@ export const NAV_LINKS = [
   { href: "/types", labelKey: "nav.types" },
   { href: "/moves", labelKey: "nav.moves" },
   { href: "/items", labelKey: "nav.items" },
-  { href: "/team-builder", labelKey: "nav.teamBuilder" },
+  { href: "/pokemon-of-the-day", labelKey: "nav.pokemonOfTheDay" },
   { href: "/favorites", labelKey: "nav.favorites" },
 ] as const;
 

@@ -2,42 +2,27 @@
 
 import { useEffect } from "react";
 import { CharacterCard } from "@/components/CharacterCard";
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from "@/components/pagination";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
-import { formatGenerationLabel, t } from "@/lib/i18n";
+import { t } from "@/lib/i18n";
 import { POKEMON_LIST_PAGE_SIZE } from "@/lib/constants";
 import { usePaginationUrl } from "@/hooks/usePaginationUrl";
-import { usePokemonListQuery, type PokemonListInitialData } from "../../hooks/usePokemonListQuery";
-import { useTypesMultiQuery, intersectPokemon } from "../../hooks/useTypeFilterQuery";
-import { useGenerationQuery, filterByGeneration } from "../../hooks/useGenerationFilterQuery";
+import { usePokemonListQuery } from "@/app/pokemon/hooks/usePokemonListQuery";
+import { useTypesMultiQuery } from "@/app/pokemon/hooks/useTypeFilterQuery";
+import { useGenerationQuery } from "@/app/pokemon/hooks/useGenerationFilterQuery";
 import { getIdFromUrl } from "@/lib/pokeapi";
-import type { Generation, NamedResource, PokemonType } from "@/types";
+import { getFilterHeading } from "@/app/pokemon/utils/getFilterHeading";
+import { intersectPokemon } from "@/app/pokemon/utils/intersectPokemon";
+import { filterByGeneration } from "@/app/pokemon/utils/filterByGeneration";
+import type { NamedResource } from "@/types";
 
 interface Props {
-  initialData?: PokemonListInitialData;
   types: string[];
   generation: string | null;
-  initialTypeData: PokemonType[];
-  initialGenerationData?: Generation;
 }
 
-function getFilterHeading(types: string[], generation: string | null): string {
-  if (types.length === 1 && !generation) return t("pokemonList.withType");
-  if (types.length > 1 && !generation) return t("pokemonList.matchingTypes");
-  if (types.length === 0 && generation) {
-    return t("pokemonList.fromGeneration", { generation: formatGenerationLabel(generation) });
-  }
-  return t("pokemonList.matchingFilters");
-}
-
-export function PokemonListClient({
-  initialData,
-  types,
-  generation,
-  initialTypeData = [],
-  initialGenerationData,
-}: Props) {
+export function PokemonListClient({ types, generation }: Props) {
   const [page, setPage] = usePaginationUrl();
   const isFiltered = types.length > 0 || !!generation;
 
@@ -46,25 +31,21 @@ export function PokemonListClient({
     isLoading: listLoading,
     isError: listError,
     error: listErr,
-  } = usePokemonListQuery({
-    page,
-    enabled: !isFiltered,
-    initialData,
-  });
+  } = usePokemonListQuery({ page, enabled: !isFiltered });
 
   const {
     data: typeDataList,
     isLoading: typeLoading,
     isError: typeError,
     error: typeErr,
-  } = useTypesMultiQuery(types, initialTypeData);
+  } = useTypesMultiQuery(types);
 
   const {
     data: generationData,
     isLoading: generationLoading,
     isError: generationError,
     error: generationErr,
-  } = useGenerationQuery(generation, initialGenerationData);
+  } = useGenerationQuery(generation);
 
   const isLoading =
     (types.length > 0 && typeLoading) ||

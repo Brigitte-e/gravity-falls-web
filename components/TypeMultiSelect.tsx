@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { ChevronDown, X, Check, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 import { DEFAULT_TYPE_COLOR, TYPE_COLORS, TYPE_FILTER_PAGE_SIZE } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
 import { t } from "@/lib/i18n";

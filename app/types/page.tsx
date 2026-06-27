@@ -1,4 +1,4 @@
-import { TypeGrid } from "./features/TypeGrid";
+import { TypeGrid } from "./features/type-grid";
 import { PageContainer } from "@/components/PageContainer";
 import { PageHeader } from "@/components/PageHeader";
 import { fetchTypeList } from "@/app/api/types";
