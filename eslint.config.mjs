@@ -18,6 +18,7 @@ const eslintConfig = defineConfig([
     'storybook-static/**',
     // Claude Code skills are external tooling, not project code
     '.claude/**',
+    '.agents/**',
   ]),
 ]);
 
