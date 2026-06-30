@@ -5,19 +5,31 @@ import { ChevronDown, X, Check, Search } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { DEFAULT_TYPE_COLOR, TYPE_COLORS, TYPE_FILTER_PAGE_SIZE } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
-import { t } from "@/lib/i18n";
 
 interface TypeOption {
   name: string;
+  displayName?: string;
+}
+
+export interface TypeMultiSelectLabels {
+  filterByType: string;
+  typesSelectedPattern: string;
+  clearAll: string;
+  searchPlaceholder: string;
+  noTypesFound: string;
+  scrollForMore: string;
+  removeTypePattern: string;
+  clearSearch: string;
 }
 
 interface TypeMultiSelectProps {
   types: TypeOption[];
   selected: string[];
   onChange: (selected: string[]) => void;
+  labels: TypeMultiSelectLabels;
 }
 
-export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectProps) {
+export function TypeMultiSelect({ types, selected, onChange, labels }: TypeMultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(TYPE_FILTER_PAGE_SIZE);
@@ -28,11 +40,14 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
   const uid = useId();
   const listboxId = `${uid}-listbox`;
 
-  // O(1) lookup instead of O(n) selected.includes on every render
   const selectedSet = useMemo(() => new Set(selected), [selected]);
 
   const filtered = useMemo(
-    () => types.filter((type) => type.name.toLowerCase().includes(search.toLowerCase())),
+    () =>
+      types.filter((type) => {
+        const label = (type.displayName ?? capitalize(type.name)).toLowerCase();
+        return type.name.toLowerCase().includes(search.toLowerCase()) || label.includes(search.toLowerCase());
+      }),
     [types, search]
   );
   const visible = filtered.slice(0, visibleCount);
@@ -131,14 +146,13 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
 
   const label =
     selected.length === 0
-      ? t("typeFilter.filterByType")
+      ? labels.filterByType
       : selected.length === 1
-        ? capitalize(selected[0])
-        : t("typeFilter.typesSelected", { count: selected.length });
+        ? types.find((t) => t.name === selected[0])?.displayName ?? capitalize(selected[0])
+        : labels.typesSelectedPattern.replace("{count}", String(selected.length));
 
   return (
     <div ref={containerRef} className="relative w-64">
-      {/* Trigger */}
       <div
         role="combobox"
         aria-expanded={open}
@@ -165,9 +179,18 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
             <span className="text-muted-foreground">{label}</span>
           ) : (
             <span className="flex flex-wrap gap-1">
-              {selected.map((name) => (
-                <TypeBadge key={name} name={name} onRemove={() => toggle(name)} />
-              ))}
+              {selected.map((name) => {
+                const displayName = types.find((t) => t.name === name)?.displayName ?? name;
+                return (
+                  <TypeBadge
+                    key={name}
+                    name={name}
+                    displayName={displayName}
+                    onRemove={() => toggle(name)}
+                    removeLabel={labels.removeTypePattern.replace("{name}", displayName)}
+                  />
+                );
+              })}
             </span>
           )}
         </span>
@@ -177,7 +200,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
               type="button"
               onClick={(e) => { e.stopPropagation(); clearAll(); }}
               className="rounded-full p-0.5 text-muted-foreground hover:text-foreground"
-              aria-label={t("typeFilter.clearAll")}
+              aria-label={labels.clearAll}
             >
               <X size={14} />
             </button>
@@ -192,28 +215,25 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
         </span>
       </div>
 
-      {/* Dropdown */}
       {open && (
         <div className="absolute left-0 top-full z-50 mt-1 w-full rounded-xl border border-border bg-card shadow-xl shadow-black/40">
-          {/* Search */}
           <div className="flex items-center gap-2 border-b border-border px-3 py-2">
             <Search size={14} className="shrink-0 text-muted-foreground" />
             <input
               ref={searchRef}
               value={search}
               onChange={(e) => updateSearch(e.target.value)}
-              placeholder={t("typeFilter.searchPlaceholder")}
-              aria-label={t("typeFilter.searchPlaceholder")}
+              placeholder={labels.searchPlaceholder}
+              aria-label={labels.searchPlaceholder}
               className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
             {search && (
-              <button onClick={() => updateSearch("")} className="text-muted-foreground hover:text-foreground" aria-label={t("typeFilter.clearSearch")}>
+              <button onClick={() => updateSearch("")} className="text-muted-foreground hover:text-foreground" aria-label={labels.clearSearch}>
                 <X size={12} />
               </button>
             )}
           </div>
 
-          {/* List */}
           <ul
             id={listboxId}
             ref={listRef}
@@ -225,7 +245,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
             className="max-h-56 overflow-y-auto py-1 outline-none"
           >
             {visible.length === 0 && (
-              <li className="px-3 py-2 text-xs text-muted-foreground">{t("typeFilter.noTypesFound")}</li>
+              <li className="px-3 py-2 text-xs text-muted-foreground">{labels.noTypesFound}</li>
             )}
             {visible.map((type, index) => {
               const isSelected = selectedSet.has(type.name);
@@ -249,7 +269,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
                     className="h-3 w-3 shrink-0 rounded-full"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="flex-1">{capitalize(type.name)}</span>
+                  <span className="flex-1">{type.displayName ?? capitalize(type.name)}</span>
                   {isSelected && (
                     <Check size={14} className="shrink-0 text-pk-yellow" />
                   )}
@@ -258,7 +278,7 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
             })}
             {hasMore && (
               <li className="px-3 py-1 text-center text-xs text-muted-foreground">
-                {t("typeFilter.scrollForMore")}
+                {labels.scrollForMore}
               </li>
             )}
           </ul>
@@ -268,18 +288,28 @@ export function TypeMultiSelect({ types, selected, onChange }: TypeMultiSelectPr
   );
 }
 
-function TypeBadge({ name, onRemove }: { name: string; onRemove: () => void }) {
+function TypeBadge({
+  name,
+  displayName,
+  onRemove,
+  removeLabel,
+}: {
+  name: string;
+  displayName: string;
+  onRemove: () => void;
+  removeLabel: string;
+}) {
   const color = TYPE_COLORS[name] ?? DEFAULT_TYPE_COLOR;
   return (
     <span
       className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold uppercase text-white"
       style={{ backgroundColor: color }}
     >
-      {name}
+      {displayName}
       <button
         onClick={(e) => { e.stopPropagation(); onRemove(); }}
         className="opacity-70 hover:opacity-100"
-        aria-label={t("typeFilter.removeType", { name })}
+        aria-label={removeLabel}
       >
         <X size={10} />
       </button>

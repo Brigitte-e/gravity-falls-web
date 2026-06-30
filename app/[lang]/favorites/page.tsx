@@ -1,0 +1,28 @@
+import { PageContainer } from "@/components/PageContainer";
+import { PageHeader } from "@/components/PageHeader";
+import { FavoritesList } from "./features/favorites-list";
+import { getDictionary, t } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
+
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function FavoritesPage({ params }: Props) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as Locale);
+
+  const favLabels = {
+    empty: t(dict, "favorites.empty"),
+    savedCountPattern: dict.favorites.savedCount,
+    removeLabel: t(dict, "favorites.remove"),
+    clearAll: t(dict, "favorites.clearAll"),
+  };
+
+  return (
+    <PageContainer>
+      <PageHeader title={t(dict, "pages.favorites.title")} />
+      <FavoritesList labels={favLabels} locale={lang as Locale} />
+    </PageContainer>
+  );
+}

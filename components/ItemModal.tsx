@@ -2,7 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchItem, capitalize } from "@/lib/pokeapi";
-import { t } from "@/lib/i18n";
+import { fetchItemCategory } from "@/app/api/categories";
+import { getLocalizedName, getLocalizedDescription } from "@/lib/locale";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -12,30 +13,57 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { LazyImage } from "./LazyImage";
+import type { Locale } from "@/lib/constants";
+
+export interface ItemModalLabels {
+  cost: string;
+  category: string;
+  noDescription: string;
+  errorDefault: string;
+  empty: string;
+  close: string;
+}
 
 interface ItemModalProps {
   itemName: string;
   onClose: () => void;
+  labels: ItemModalLabels;
+  locale?: Locale;
 }
 
-export function ItemModal({ itemName, onClose }: ItemModalProps) {
+export function ItemModal({ itemName, onClose, labels, locale = "en" }: ItemModalProps) {
   const { data, isError } = useQuery({
     queryKey: ["item", itemName],
     queryFn: () => fetchItem(itemName),
+    staleTime: Infinity,
   });
 
+  const { data: categoryData } = useQuery({
+    queryKey: ["item-category", data?.category.name],
+    queryFn: () => fetchItemCategory(data!.category.name),
+    enabled: !!data?.category.name,
+    staleTime: Infinity,
+  });
+
+  const localizedItemName = data
+    ? getLocalizedName(data.names, locale, capitalize(data.name))
+    : undefined;
+  const localizedCategoryName = categoryData
+    ? getLocalizedName(categoryData.names, locale, capitalize(data!.category.name))
+    : data
+      ? capitalize(data.category.name)
+      : undefined;
   const description = data
-    ? (data.effect_entries.find((e) => e.language.name === "en")?.short_effect ??
-       data.effect_entries[0]?.short_effect ??
-       t("common.noDescription"))
+    ? (getLocalizedDescription(data.effect_entries, data.flavor_text_entries, locale) ??
+      labels.noDescription)
     : undefined;
 
   if (isError) {
     return (
       <Dialog open onOpenChange={(open) => !open && onClose()}>
-        <DialogContent>
+        <DialogContent closeLabel={labels.close}>
           <p className="py-6 text-center text-sm text-destructive">
-            {t("common.errorDefault")}
+            {labels.errorDefault}
           </p>
         </DialogContent>
       </Dialog>
@@ -44,23 +72,23 @@ export function ItemModal({ itemName, onClose }: ItemModalProps) {
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
+      <DialogContent closeLabel={labels.close}>
         <DialogHeader>
           {data ? (
             <div className="flex items-start gap-3">
               {data.sprites.default && (
                 <LazyImage
                   src={data.sprites.default}
-                  alt={data.name}
+                  alt={localizedItemName ?? data.name}
                   width={40}
                   height={40}
                   className="object-contain"
                 />
               )}
               <div>
-                <DialogTitle>{capitalize(data.name)}</DialogTitle>
+                <DialogTitle>{localizedItemName ?? capitalize(data.name)}</DialogTitle>
                 <span className="text-xs text-muted-foreground">
-                  {capitalize(data.category.name)}
+                  {localizedCategoryName}
                 </span>
               </div>
             </div>
@@ -90,8 +118,8 @@ export function ItemModal({ itemName, onClose }: ItemModalProps) {
           {data ? (
             <>
               {[
-                { label: t("itemModal.cost"), value: data.cost > 0 ? `₽${data.cost.toLocaleString()}` : t("common.empty") },
-                { label: t("itemModal.category"), value: capitalize(data.category.name) },
+                { label: labels.cost, value: data.cost > 0 ? `₽${data.cost.toLocaleString()}` : labels.empty },
+                { label: labels.category, value: localizedCategoryName ?? labels.empty },
               ].map(({ label, value }) => (
                 <div key={label} className="rounded-xl bg-muted/50 px-3 py-2 text-center">
                   <div className="text-xs text-muted-foreground mb-1">{label}</div>

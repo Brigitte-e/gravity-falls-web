@@ -6,8 +6,8 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe("Home page", () => {
-  it("redirects to /pokemon", () => {
+  it("redirects to /en/pokemon", () => {
     Home();
-    expect(redirect).toHaveBeenCalledWith("/pokemon");
+    expect(redirect).toHaveBeenCalledWith("/en/pokemon");
   });
 });

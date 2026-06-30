@@ -1,14 +1,14 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { ITEM_LIST_PAGE_SIZE, MOVE_LIST_PAGE_SIZE } from "@/lib/constants";
-import { t } from "@/lib/i18n";
 
 export type LoadingStateVariant = "grid" | "detail" | "type-detail" | "item-list" | "move-list" | "type-grid" | "inline";
 
 interface LoadingStateProps {
   variant?: LoadingStateVariant;
+  loadingText?: string;
 }
 
-export function LoadingState({ variant = "inline" }: LoadingStateProps) {
+export function LoadingState({ variant = "inline", loadingText = "Loading…" }: LoadingStateProps) {
   if (variant === "grid") {
     return (
       <div>
@@ -115,6 +115,6 @@ export function LoadingState({ variant = "inline" }: LoadingStateProps) {
   }
 
   return (
-    <p className="text-sm text-muted-foreground animate-pulse">{t("common.loading")}</p>
+    <p className="text-sm text-muted-foreground animate-pulse">{loadingText}</p>
   );
 }

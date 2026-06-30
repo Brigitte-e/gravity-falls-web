@@ -1,4 +1,4 @@
 "use client";
 
-export type { FavoriteEntry } from "@/app/favorites/utils/favoriteEntry";
+export type { FavoriteEntry } from "@/types/favorite";
 export { useFavoritesStore as useFavorites } from "@/store/favorites";

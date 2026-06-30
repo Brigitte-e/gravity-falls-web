@@ -3,7 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { DEFAULT_TYPE_COLOR, TYPE_COLORS } from "@/lib/constants";
 import { fetchMove, capitalize } from "@/lib/pokeapi";
-import { t } from "@/lib/i18n";
+import { fetchType } from "@/app/api/types";
+import { getLocalizedName, getLocalizedDescription } from "@/lib/locale";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
@@ -12,31 +13,60 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import type { Locale } from "@/lib/constants";
+
+export interface MoveModalLabels {
+  power: string;
+  accuracy: string;
+  pp: string;
+  noDescription: string;
+  errorDefault: string;
+  empty: string;
+  close: string;
+  damageClassNames?: Record<string, string>;
+}
 
 interface MoveModalProps {
   moveName: string;
   onClose: () => void;
+  labels: MoveModalLabels;
+  locale?: Locale;
 }
 
-export function MoveModal({ moveName, onClose }: MoveModalProps) {
+export function MoveModal({ moveName, onClose, labels, locale = "en" }: MoveModalProps) {
   const { data, isError } = useQuery({
     queryKey: ["move", moveName],
     queryFn: () => fetchMove(moveName),
+    staleTime: Infinity,
+  });
+
+  const { data: typeData } = useQuery({
+    queryKey: ["type", data?.type.name],
+    queryFn: () => fetchType(data!.type.name),
+    enabled: !!data?.type.name,
+    staleTime: Infinity,
   });
 
   const typeColor = data ? (TYPE_COLORS[data.type.name] ?? DEFAULT_TYPE_COLOR) : undefined;
+  const localizedMoveName = data
+    ? getLocalizedName(data.names, locale, capitalize(data.name))
+    : undefined;
+  const localizedTypeName = typeData
+    ? getLocalizedName(typeData.names, locale, capitalize(data!.type.name))
+    : data
+      ? capitalize(data.type.name)
+      : undefined;
   const description = data
-    ? (data.effect_entries.find((e) => e.language.name === "en")?.short_effect ??
-       data.effect_entries[0]?.short_effect ??
-       t("common.noDescription"))
+    ? (getLocalizedDescription(data.effect_entries, data.flavor_text_entries, locale) ??
+      labels.noDescription)
     : undefined;
 
   if (isError) {
     return (
       <Dialog open onOpenChange={(open) => !open && onClose()}>
-        <DialogContent>
+        <DialogContent closeLabel={labels.close}>
           <p className="py-6 text-center text-sm text-destructive">
-            {t("common.errorDefault")}
+            {labels.errorDefault}
           </p>
         </DialogContent>
       </Dialog>
@@ -45,19 +75,19 @@ export function MoveModal({ moveName, onClose }: MoveModalProps) {
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
+      <DialogContent closeLabel={labels.close}>
         <DialogHeader>
           {data ? (
             <div className="flex items-center gap-3">
-              <DialogTitle>{capitalize(data.name)}</DialogTitle>
+              <DialogTitle>{localizedMoveName ?? capitalize(data.name)}</DialogTitle>
               <span
                 className="rounded-full px-3 py-0.5 text-xs font-semibold text-white"
                 style={{ backgroundColor: typeColor }}
               >
-                {capitalize(data.type.name)}
+                {localizedTypeName}
               </span>
               <span className="rounded-full px-3 py-0.5 text-xs font-semibold bg-muted text-muted-foreground">
-                {capitalize(data.damage_class.name)}
+                {labels.damageClassNames?.[data.damage_class.name] ?? capitalize(data.damage_class.name)}
               </span>
             </div>
           ) : (
@@ -86,9 +116,9 @@ export function MoveModal({ moveName, onClose }: MoveModalProps) {
           {data ? (
             <>
               {[
-                { label: t("moveModal.power"), value: data.power ?? t("common.empty") },
-                { label: t("moveModal.accuracy"), value: data.accuracy != null ? `${data.accuracy}%` : t("common.empty") },
-                { label: t("moveModal.pp"), value: data.pp },
+                { label: labels.power, value: data.power ?? labels.empty },
+                { label: labels.accuracy, value: data.accuracy != null ? `${data.accuracy}%` : labels.empty },
+                { label: labels.pp, value: data.pp },
               ].map(({ label, value }) => (
                 <div key={label} className="rounded-xl bg-muted/50 px-3 py-2 text-center">
                   <div className="text-xs text-muted-foreground mb-1">{label}</div>

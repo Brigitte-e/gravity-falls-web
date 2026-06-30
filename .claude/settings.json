@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://pokeapi.co/api/v2/item/poke-ball\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('NAME langs:', [n['language']['name'] for n in d['names']]\\)\")",
+      "Bash(curl -s \"https://pokeapi.co/api/v2/ability/overgrow\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('NAME langs:', [n['language']['name'] for n in d['names']]\\); print\\('EFFECT langs:', [e['language']['name'] for e in d['effect_entries']]\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\([n for n in d['names'] if n['language']['name'] in \\('en','es'\\)], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('names', []\\)[:5], indent=2\\)\\)\")",
+      "Bash(curl -s \"https://pokeapi.co/api/v2/stat/speed\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('names', []\\), indent=2\\)\\)\")",
+      "Bash(curl -s \"https://pokeapi.co/api/v2/move-damage-class/physical\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('names', []\\)[:6], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(n['language']['name'], n['name']\\) for n in d['names'] if n['language']['name'] in ['en','es']]\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('stats', d.get\\('pokemonDetail', {}\\)\\), indent=2\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d, indent=2\\)\\)\")",
+      "Bash(grep -v \"favoriteEntry.ts$\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

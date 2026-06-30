@@ -1,4 +1,4 @@
-import type { NamedResource } from "./common";
+import type { NamedResource, LocalizedName } from "./common";
 
 export interface PokemonSprites {
   front_default: string | null;
@@ -22,7 +22,7 @@ export interface TypeSlot {
 }
 
 export interface AbilitySlot {
-  ability: NamedResource;
+  ability: NamedResource & { localizedName?: string };
   is_hidden: boolean;
   slot: number;
 }
@@ -48,6 +48,7 @@ export interface Pokemon {
 export interface PokemonType {
   id: number;
   name: string;
+  names: LocalizedName[];
   damage_relations: {
     double_damage_from: NamedResource[];
     double_damage_to: NamedResource[];
@@ -64,4 +65,16 @@ export interface Generation {
   id: number;
   name: string;
   pokemon_species: NamedResource[];
+}
+
+export interface PokemonSpecies {
+  id: number;
+  name: string;
+  names: LocalizedName[];
+}
+
+export interface Ability {
+  id: number;
+  name: string;
+  names: LocalizedName[];
 }

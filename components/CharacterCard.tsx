@@ -8,13 +8,27 @@ import { capitalize, getPokemonSprite } from "@/lib/pokeapi";
 export interface PokemonCardProps {
   id: number;
   name: string;
+  displayName?: string;
   types?: string[];
+  typeNameMap?: Map<string, string>;
   className?: string;
   fetchPriority?: "high" | "low" | "auto";
+  locale: string;
 }
 
-export function CharacterCard({ id, name, types = [], className, fetchPriority }: PokemonCardProps) {
+export function CharacterCard({
+  id,
+  name,
+  displayName,
+  types = [],
+  typeNameMap,
+  className,
+  fetchPriority,
+  locale,
+}: PokemonCardProps) {
   const sprite = getPokemonSprite(id);
+  const href = `/${locale}/pokemon/${name}`;
+  const label = displayName ?? capitalize(name);
 
   return (
     <Card
@@ -24,13 +38,13 @@ export function CharacterCard({ id, name, types = [], className, fetchPriority }
       )}
     >
       <Link
-        href={`/pokemon/${name}`}
+        href={href}
         className="flex flex-col items-center gap-3 p-5 text-center"
       >
         <div className="relative h-24 w-24">
           <LazyImage
             src={sprite}
-            alt={name}
+            alt={label}
             width={96}
             height={96}
             fetchPriority={fetchPriority}
@@ -45,7 +59,7 @@ export function CharacterCard({ id, name, types = [], className, fetchPriority }
             #{String(id).padStart(4, "0")}
           </span>
           <span className="text-sm font-semibold text-foreground group-hover:text-pk-yellow transition-colors duration-300">
-            {capitalize(name)}
+            {label}
           </span>
           {types.length > 0 && (
             <div className="flex gap-1 mt-1">
@@ -55,7 +69,7 @@ export function CharacterCard({ id, name, types = [], className, fetchPriority }
                   className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase text-white"
                   style={{ backgroundColor: TYPE_COLORS[t] ?? DEFAULT_TYPE_COLOR }}
                 >
-                  {t}
+                  {typeNameMap?.get(t) ?? t}
                 </span>
               ))}
             </div>

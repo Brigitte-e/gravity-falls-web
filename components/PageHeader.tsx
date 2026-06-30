@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { t } from "@/lib/i18n";
 
 interface Props {
   title: string;
@@ -10,7 +9,7 @@ interface Props {
   rightSlot?: ReactNode;
 }
 
-export function PageHeader({ title, subtitle, backHref, backLabel, rightSlot }: Props) {
+export function PageHeader({ title, subtitle, backHref, backLabel = "Back", rightSlot }: Props) {
   return (
     <div className="mb-8">
       {backHref && (
@@ -18,7 +17,7 @@ export function PageHeader({ title, subtitle, backHref, backLabel, rightSlot }: 
           href={backHref}
           className="inline-flex items-center gap-1 text-sm font-medium text-pk-yellow/60 hover:text-pk-yellow transition-colors mb-4"
         >
-          ← {backLabel ?? t("common.back")}
+          ← {backLabel}
         </Link>
       )}
       <div className="flex items-start justify-between gap-4">

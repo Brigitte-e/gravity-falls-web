@@ -1,4 +1,4 @@
-import type { NamedResource } from "./common";
+import type { NamedResource, LocalizedName, LocalizedEffect, LocalizedFlavorText } from "./common";
 
 export interface Move {
   id: number;
@@ -8,5 +8,7 @@ export interface Move {
   pp: number;
   type: NamedResource;
   damage_class: NamedResource;
-  effect_entries: { effect: string; short_effect: string; language: NamedResource }[];
+  names: LocalizedName[];
+  effect_entries: LocalizedEffect[];
+  flavor_text_entries: LocalizedFlavorText[];
 }

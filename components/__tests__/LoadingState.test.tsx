@@ -1,11 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { LoadingState } from "../LoadingState";
-import { t } from "@/lib/i18n";
 
 describe("LoadingState", () => {
   it("renders inline text by default", () => {
     render(<LoadingState />);
-    expect(screen.getByText(t("common.loading"))).toBeInTheDocument();
+    expect(screen.getByText("Loading…")).toBeInTheDocument();
   });
 
   it("renders skeleton grid for grid variant", () => {

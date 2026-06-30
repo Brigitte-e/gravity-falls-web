@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "title": "PokéDex — Explora el Mundo Pokémon",
+    "description": "Explora Pokémon, tipos, movimientos, objetos, forma tu equipo y guarda favoritos."
+  },
+  "nav": {
+    "logo": "PokéDex",
+    "ariaLabel": "Navegación principal",
+    "pokemon": "Pokémon",
+    "types": "Tipos",
+    "moves": "Movimientos",
+    "items": "Objetos",
+    "pokemonOfTheDay": "Pokémon del Día",
+    "favorites": "Favoritos"
+  },
+  "common": {
+    "back": "Atrás",
+    "loading": "Cargando…",
+    "errorDefault": "Algo salió mal",
+    "empty": "—",
+    "close": "Cerrar",
+    "previous": "← Anterior",
+    "next": "Siguiente →",
+    "pageOfTotal": "{page} / {total}",
+    "pagination": "Paginación",
+    "noDescription": "Sin descripción disponible."
+  },
+  "favorites": {
+    "add": "Añadir a favoritos",
+    "remove": "Quitar de favoritos",
+    "empty": "Sin favoritos aún. Marca un Pokémon en su página de detalle.",
+    "savedCount": "{count} Pokémon guardados",
+    "clearAll": "Borrar todos los favoritos"
+  },
+  "typeFilter": {
+    "filterByType": "Filtrar por tipo",
+    "typesSelected": "{count} tipos seleccionados",
+    "clearAll": "Borrar todo",
+    "searchPlaceholder": "Buscar tipos…",
+    "noTypesFound": "No se encontraron tipos",
+    "scrollForMore": "Desliza para más…",
+    "removeType": "Quitar {name}",
+    "clearSearch": "Borrar búsqueda"
+  },
+  "generationFilter": {
+    "filterByGeneration": "Filtrar por generación",
+    "allGenerations": "Todas las generaciones",
+    "generation": "Generación {suffix}"
+  },
+  "moveModal": {
+    "power": "Poder",
+    "accuracy": "Precisión",
+    "pp": "PP"
+  },
+  "itemModal": {
+    "cost": "Coste",
+    "category": "Categoría"
+  },
+  "pages": {
+    "types": {
+      "title": "Tipos",
+      "subtitle": "Explora todos los tipos Pokémon y sus relaciones de daño."
+    },
+    "moves": {
+      "title": "Movimientos",
+      "subtitle": "{count} movimientos en total"
+    },
+    "items": {
+      "title": "Objetos",
+      "subtitle": "{count} objetos en total"
+    },
+    "favorites": {
+      "title": "Favoritos"
+    },
+    "pokemonOfTheDay": {
+      "title": "Pokémon del Día",
+      "subtitle": "Descubre un nuevo Pokémon cada día."
+    },
+    "pokedex": {
+      "title": "Pokédex"
+    }
+  },
+  "pokemonList": {
+    "withType": "Pokémon con este tipo",
+    "matchingTypes": "Pokémon que coinciden con todos los tipos seleccionados",
+    "fromGeneration": "Pokémon de {generation}",
+    "matchingFilters": "Pokémon que coinciden con los filtros",
+    "noMatch": "Ningún Pokémon coincide con los filtros seleccionados.",
+    "moreCount": "+ {count} Pokémon más",
+    "all": "Todos los Pokémon"
+  },
+  "pokemonDetail": {
+    "backToPokedex": "Volver a la Pokédex",
+    "height": "Altura",
+    "weight": "Peso",
+    "baseXp": "XP Base",
+    "heightUnit": " m",
+    "weightUnit": " kg",
+    "baseStats": "Estadísticas Base",
+    "abilities": "Habilidades",
+    "hidden": "(oculta)",
+    "moves": "Movimientos ({count})"
+  },
+  "stats": {
+    "hp": "PS",
+    "attack": "Ataque",
+    "defense": "Defensa",
+    "special-attack": "At. Esp.",
+    "special-defense": "Def. Esp.",
+    "speed": "Velocidad"
+  },
+  "damageClass": {
+    "physical": "Físico",
+    "special": "Especial",
+    "status": "Estado"
+  },
+  "typeDetail": {
+    "backToTypes": "Volver a Tipos",
+    "damageRelations": "Relaciones de Daño",
+    "strongAgainst": "Fuerte contra (2×)",
+    "weakAgainst": "Débil contra (2× de)",
+    "notVeryEffective": "Poco efectivo (½×)",
+    "resists": "Resiste (½× de)",
+    "noEffectAgainst": "Sin efecto contra (0×)",
+    "immuneTo": "Inmune a (0× de)",
+    "moves": "Movimientos"
+  },
+  "pokemonOfTheDay": {
+    "reveal": "Revelar el Pokémon de hoy",
+    "alreadyRevealed": "Ya revelado hoy",
+    "viewDetails": "Ver detalles",
+    "hint": "¡Haz clic en el botón para revelar tu Pokémon del día. Vuelve mañana para uno nuevo!",
+    "mystery": "???",
+    "mysteryType": "?????"
+  },
+  "api": {
+    "pokeApiError": "Error de PokeAPI {status}: {path}"
+  }
+}

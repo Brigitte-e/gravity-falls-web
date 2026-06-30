@@ -1,12 +1,12 @@
 import { Badge } from "@/components/ui/badge";
-import { t } from "@/lib/i18n";
 
 export interface DetailSectionProps {
   title: string;
   items: string[];
+  emptyText?: string;
 }
 
-export function DetailSection({ title, items }: DetailSectionProps) {
+export function DetailSection({ title, items, emptyText = "—" }: DetailSectionProps) {
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-xs font-semibold uppercase tracking-widest text-pk-yellow/60">
@@ -21,7 +21,7 @@ export function DetailSection({ title, items }: DetailSectionProps) {
           ))}
         </ul>
       ) : (
-        <p className="text-sm text-muted-foreground/50">{t("common.empty")}</p>
+        <p className="text-sm text-muted-foreground/50">{emptyText}</p>
       )}
     </div>
   );

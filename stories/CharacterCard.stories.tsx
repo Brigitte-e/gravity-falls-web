@@ -18,6 +18,7 @@ export const Default: Story = {
     id: 25,
     name: "pikachu",
     types: ["electric"],
+    locale: "en",
   },
 };
 
@@ -26,6 +27,7 @@ export const DualType: Story = {
     id: 6,
     name: "charizard",
     types: ["fire", "flying"],
+    locale: "en",
   },
 };
 
@@ -34,5 +36,6 @@ export const LegendaryWithLongName: Story = {
     id: 384,
     name: "rayquaza",
     types: ["dragon", "flying"],
+    locale: "en",
   },
 };

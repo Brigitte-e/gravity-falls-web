@@ -22,6 +22,11 @@ export const MAX_TEAM_SIZE = 6;
 
 export const FAVORITES_STORAGE_KEY = "pokemon-favorites";
 
+export const LOCALES = ["en", "es", "de"] as const;
+export type Locale = (typeof LOCALES)[number];
+export const DEFAULT_LOCALE: Locale = "en";
+export const LOCALE_COOKIE = "NEXT_LOCALE";
+
 export const DEFAULT_TYPE_COLOR = "#888";
 export const GENERATION_PREFIX = "generation-";
 

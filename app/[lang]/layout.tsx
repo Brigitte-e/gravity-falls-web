@@ -1,0 +1,49 @@
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { QueryProvider } from "@/providers/QueryProvider";
+import { Nav } from "@/components/Nav";
+import { getDictionary } from "@/lib/i18n";
+import { LOCALES } from "@/lib/constants";
+import type { Locale } from "@/lib/i18n";
+
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }));
+}
+
+interface Props {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params;
+  if (!(LOCALES as readonly string[]).includes(lang)) return {};
+  const dict = await getDictionary(lang as Locale);
+  return { title: dict.metadata.title, description: dict.metadata.description };
+}
+
+export default async function LangLayout({ children, params }: Props) {
+  const { lang } = await params;
+  if (!(LOCALES as readonly string[]).includes(lang)) notFound();
+
+  const locale = lang as Locale;
+  const dict = await getDictionary(locale);
+
+  const navLabels = {
+    logo: dict.nav.logo,
+    ariaLabel: dict.nav.ariaLabel,
+    pokemon: dict.nav.pokemon,
+    types: dict.nav.types,
+    moves: dict.nav.moves,
+    items: dict.nav.items,
+    pokemonOfTheDay: dict.nav.pokemonOfTheDay,
+    favorites: dict.nav.favorites,
+  };
+
+  return (
+    <QueryProvider>
+      <Nav locale={locale} labels={navLabels} />
+      <div className="flex-1">{children}</div>
+    </QueryProvider>
+  );
+}

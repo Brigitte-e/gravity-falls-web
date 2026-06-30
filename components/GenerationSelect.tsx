@@ -3,21 +3,31 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
-import { formatGenerationLabel, t } from "@/lib/i18n";
 
 interface GenerationOption {
   name: string;
+}
+
+export interface GenerationSelectLabels {
+  filterByGeneration: string;
+  allGenerations: string;
+  generationPattern: string;
+  generationPrefix: string;
 }
 
 interface GenerationSelectProps {
   generations: GenerationOption[];
   selected: string | null;
   onChange: (generation: string | null) => void;
+  labels: GenerationSelectLabels;
 }
 
-export { formatGenerationLabel };
+function formatGenLabel(name: string, labels: GenerationSelectLabels): string {
+  const suffix = name.replace(labels.generationPrefix, "").toUpperCase();
+  return labels.generationPattern.replace("{suffix}", suffix);
+}
 
-export function GenerationSelect({ generations, selected, onChange }: GenerationSelectProps) {
+export function GenerationSelect({ generations, selected, onChange, labels }: GenerationSelectProps) {
   const [open, setOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -89,7 +99,7 @@ export function GenerationSelect({ generations, selected, onChange }: Generation
   }
 
   const focusedOptionId = focusedIndex >= 0 ? `${uid}-option-${focusedIndex}` : undefined;
-  const label = selected ? formatGenerationLabel(selected) : t("generationFilter.filterByGeneration");
+  const label = selected ? formatGenLabel(selected, labels) : labels.filterByGeneration;
 
   return (
     <div ref={containerRef} className="relative w-56">
@@ -136,7 +146,7 @@ export function GenerationSelect({ generations, selected, onChange }: Generation
                 focusedIndex === 0 ? "bg-muted/70" : "hover:bg-muted/50"
               )}
             >
-              <span className="flex-1 text-muted-foreground">{t("generationFilter.allGenerations")}</span>
+              <span className="flex-1 text-muted-foreground">{labels.allGenerations}</span>
               {!selected && <Check size={14} className="shrink-0 text-pk-yellow" />}
             </li>
             {generations.map((gen, idx) => {
@@ -156,7 +166,7 @@ export function GenerationSelect({ generations, selected, onChange }: Generation
                     focusedIndex === itemIndex ? "bg-muted/70" : "hover:bg-muted/50"
                   )}
                 >
-                  <span className="flex-1">{formatGenerationLabel(gen.name)}</span>
+                  <span className="flex-1">{formatGenLabel(gen.name, labels)}</span>
                   {isSelected && <Check size={14} className="shrink-0 text-pk-yellow" />}
                 </li>
               );

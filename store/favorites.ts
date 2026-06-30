@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { FavoriteEntry } from "@/app/favorites/utils/favoriteEntry";
+import type { FavoriteEntry } from "@/types/favorite";
 import { FAVORITES_STORAGE_KEY } from "@/lib/constants";
 
 interface FavoritesState {

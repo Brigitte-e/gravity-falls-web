@@ -101,6 +101,19 @@
     "hidden": "(hidden)",
     "moves": "Moves ({count})"
   },
+  "stats": {
+    "hp": "HP",
+    "attack": "Attack",
+    "defense": "Defense",
+    "special-attack": "Sp. Atk",
+    "special-defense": "Sp. Def",
+    "speed": "Speed"
+  },
+  "damageClass": {
+    "physical": "Physical",
+    "special": "Special",
+    "status": "Status"
+  },
   "typeDetail": {
     "backToTypes": "Back to Types",
     "damageRelations": "Damage Relations",

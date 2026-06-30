@@ -1,32 +1,44 @@
-import { GENERATION_PREFIX } from "@/lib/constants";
-import en from "@/messages/en.json";
+import "server-only";
+import { cache } from "react";
+import { GENERATION_PREFIX, LOCALES, DEFAULT_LOCALE } from "@/lib/constants";
+import type { Locale } from "@/lib/constants";
 
+export type { Locale };
+export const locales = LOCALES;
+export const defaultLocale = DEFAULT_LOCALE;
+
+type Messages = typeof import("@/messages/en.json");
 type Params = Record<string, string | number>;
 
-function getMessage(obj: Record<string, unknown>, path: string): string {
-  const value = path.split(".").reduce<unknown>((acc, key) => {
-    if (acc && typeof acc === "object" && key in acc) {
-      return (acc as Record<string, unknown>)[key];
+const dictionaries: Record<Locale, () => Promise<Messages>> = {
+  en: () => import("@/messages/en.json").then((m) => m.default),
+  es: () => import("@/messages/es.json").then((m) => m.default),
+  de: () => import("@/messages/de.json").then((m) => m.default),
+};
+
+export const getDictionary = cache(async function getDictionary(locale: Locale): Promise<Messages> {
+  return dictionaries[locale]();
+});
+
+export function t(dict: Messages, key: string, params?: Params): string {
+  const value = key.split(".").reduce<unknown>((acc, k) => {
+    if (acc && typeof acc === "object" && k in acc) {
+      return (acc as Record<string, unknown>)[k];
     }
     return undefined;
-  }, obj);
+  }, dict as unknown as Record<string, unknown>);
 
-  return typeof value === "string" ? value : path;
-}
-
-export function t(key: string, params?: Params): string {
-  let message = getMessage(en, key);
+  let message = typeof value === "string" ? value : key;
 
   if (params) {
-    for (const [name, value] of Object.entries(params)) {
-      message = message.replaceAll(`{${name}}`, String(value));
+    for (const [name, val] of Object.entries(params)) {
+      message = message.replaceAll(`{${name}}`, String(val));
     }
   }
-
   return message;
 }
 
-export function formatGenerationLabel(name: string): string {
+export function formatGenerationLabel(dict: Messages, name: string): string {
   const suffix = name.replace(GENERATION_PREFIX, "").toUpperCase();
-  return t("generationFilter.generation", { suffix });
+  return t(dict, "generationFilter.generation", { suffix });
 }

@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { DetailSection } from "../DetailSection";
-import { t } from "@/lib/i18n";
 
 describe("DetailSection", () => {
   it("renders the section title", () => {
@@ -16,6 +15,6 @@ describe("DetailSection", () => {
 
   it("renders an em dash when items is empty", () => {
     render(<DetailSection title="Films" items={[]} />);
-    expect(screen.getByText(t("common.empty"))).toBeInTheDocument();
+    expect(screen.getByText("—")).toBeInTheDocument();
   });
 });

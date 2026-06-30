@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Pagination } from "../pagination/index";
-import { t } from "@/lib/i18n";
 
 const defaultProps = {
   page: 2,
@@ -26,7 +25,7 @@ describe("Pagination", () => {
 
   it("displays a compact page indicator", () => {
     render(<Pagination {...defaultProps} />);
-    expect(screen.getByText(t("common.pageOfTotal", { page: 2, total: 5 }))).toBeInTheDocument();
+    expect(screen.getByText("2 / 5")).toBeInTheDocument();
   });
 
   it("marks the current page", () => {
@@ -36,13 +35,13 @@ describe("Pagination", () => {
 
   it("calls onPrevious when Previous is clicked", async () => {
     render(<Pagination {...defaultProps} />);
-    await userEvent.click(screen.getByRole("button", { name: t("common.previous") }));
+    await userEvent.click(screen.getByRole("button", { name: "← Previous" }));
     expect(defaultProps.onPrevious).toHaveBeenCalledTimes(1);
   });
 
   it("calls onNext when Next is clicked", async () => {
     render(<Pagination {...defaultProps} />);
-    await userEvent.click(screen.getByRole("button", { name: t("common.next") }));
+    await userEvent.click(screen.getByRole("button", { name: "Next →" }));
     expect(defaultProps.onNext).toHaveBeenCalledTimes(1);
   });
 
@@ -54,7 +53,7 @@ describe("Pagination", () => {
 
   it("disables Previous button when hasPrevious is false", () => {
     render(<Pagination {...defaultProps} hasPrevious={false} />);
-    expect(screen.getByRole("button", { name: t("common.previous") })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "← Previous" })).toBeDisabled();
   });
 
   it("renders nothing when there is only one page", () => {
@@ -66,6 +65,6 @@ describe("Pagination", () => {
 
   it("disables Next button when hasNext is false", () => {
     render(<Pagination {...defaultProps} hasNext={false} />);
-    expect(screen.getByRole("button", { name: t("common.next") })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Next →" })).toBeDisabled();
   });
 });

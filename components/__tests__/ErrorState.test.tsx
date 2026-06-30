@@ -1,11 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { ErrorState } from "../ErrorState";
-import { t } from "@/lib/i18n";
 
 describe("ErrorState", () => {
   it("renders default message", () => {
     render(<ErrorState />);
-    expect(screen.getByText(t("common.errorDefault"))).toBeInTheDocument();
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
   });
 
   it("renders custom message", () => {

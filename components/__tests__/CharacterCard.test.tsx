@@ -18,29 +18,29 @@ jest.mock("next/link", () => {
 
 describe("CharacterCard", () => {
   it("renders the Pokémon name", () => {
-    render(<CharacterCard id={25} name="pikachu" />);
+    render(<CharacterCard id={25} name="pikachu" locale="en" />);
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
   });
 
   it("renders the sprite image", () => {
-    render(<CharacterCard id={25} name="pikachu" />);
-    const img = screen.getByRole("img", { name: "pikachu" });
+    render(<CharacterCard id={25} name="pikachu" locale="en" />);
+    const img = screen.getByRole("img", { name: "Pikachu" });
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", expect.stringContaining("25"));
   });
 
   it("renders type badges when types are provided", () => {
-    render(<CharacterCard id={25} name="pikachu" types={["electric"]} />);
+    render(<CharacterCard id={25} name="pikachu" types={["electric"]} locale="en" />);
     expect(screen.getByText("electric")).toBeInTheDocument();
   });
 
   it("links to the correct Pokémon page", () => {
-    render(<CharacterCard id={25} name="pikachu" />);
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/pokemon/pikachu");
+    render(<CharacterCard id={25} name="pikachu" locale="en" />);
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/en/pokemon/pikachu");
   });
 
   it("renders the padded Pokédex number", () => {
-    render(<CharacterCard id={25} name="pikachu" />);
+    render(<CharacterCard id={25} name="pikachu" locale="en" />);
     expect(screen.getByText("#0025")).toBeInTheDocument();
   });
 });
