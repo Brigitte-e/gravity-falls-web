@@ -19,7 +19,8 @@
       "Bash(python3 -m json.tool /Users/anastasiiakhymko/Documents/Projects/pokedex-web/messages/en.json)",
       "Bash(mkdir -p /Users/anastasiiakhymko/Documents/Projects/pokedex-web/app/\\\\[lang\\\\]/profile)",
       "Bash(grep -rn \"\\\\.png\\\\$\\\\|\\\\.svg\\\\$\\\\|\\\\.webp\\\\$\\\\|\\\\.jpg\\\\$\\\\|\\\\.ico\\\\$\" /Users/anastasiiakhymko/Documents/Projects/pokedex-web --include=\"*.tsx\" --include=\"*.ts\")",
-      "Bash(node -e \"const l = require\\('./node_modules/lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /eye/i.test\\(k\\)\\)\\)\")"
+      "Bash(node -e \"const l = require\\('./node_modules/lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /eye/i.test\\(k\\)\\)\\)\")",
+      "Bash(grep -E \"\\\\.tsx$|\\\\.ts$\")"
     ],
     "additionalDirectories": [
       "/Users/anastasiiakhymko/Documents/Projects/pokedex-web/app/[lang]"

@@ -17,6 +17,11 @@ export default async function FavoritesPage({ params }: Props) {
     savedCountPattern: dict.favorites.savedCount,
     removeLabel: t(dict, "favorites.remove"),
     clearAll: t(dict, "favorites.clearAll"),
+    confirmRemove: t(dict, "favorites.confirmRemove"),
+    confirmRemoveCancel: t(dict, "favorites.confirmRemoveCancel"),
+    confirmRemoveConfirm: t(dict, "favorites.confirmRemoveConfirm"),
+    confirmClearAll: t(dict, "favorites.confirmClearAll"),
+    confirmClearAllConfirm: t(dict, "favorites.confirmClearAllConfirm"),
   };
 
   return (

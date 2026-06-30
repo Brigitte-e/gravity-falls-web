@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils/cn";
 import type { Locale } from "@/lib/constants";
 import { AuthButton } from "@/components/AuthButton";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useAuthStore } from "@/store/auth";
 
 export interface NavLabels {
   logo: string;
@@ -27,6 +28,7 @@ interface NavProps {
 
 export function Nav({ labels, locale }: NavProps) {
   const pathname = usePathname();
+  const user = useAuthStore((s) => s.user);
 
   const navLinks = [
     { href: `/${locale}/pokemon`, label: labels.pokemon },
@@ -34,7 +36,11 @@ export function Nav({ labels, locale }: NavProps) {
     { href: `/${locale}/moves`, label: labels.moves },
     { href: `/${locale}/items`, label: labels.items },
     { href: `/${locale}/pokemon-of-the-day`, label: labels.pokemonOfTheDay },
-    { href: `/${locale}/favorites`, label: labels.favorites },
+    {
+      href: user ? `/${locale}/favorites` : `/${locale}/login`,
+      activePath: `/${locale}/favorites`,
+      label: labels.favorites,
+    },
   ];
 
   return (
@@ -49,8 +55,9 @@ export function Nav({ labels, locale }: NavProps) {
         </Link>
 
         <nav aria-label={labels.ariaLabel} className="flex items-center gap-1 overflow-x-auto flex-1">
-          {navLinks.map(({ href, label }) => {
-            const active = pathname === href || pathname.startsWith(href + "/");
+          {navLinks.map(({ href, activePath, label }) => {
+            const matchPath = activePath ?? href;
+            const active = pathname === matchPath || pathname.startsWith(matchPath + "/");
             return (
               <Link
                 key={href}

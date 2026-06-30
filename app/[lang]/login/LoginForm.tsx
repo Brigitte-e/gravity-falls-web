@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,9 +70,11 @@ export function LoginForm({ lang, labels }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  if (!authLoading && user) {
-    router.replace(`/${lang}/pokemon`);
-  }
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(`/${lang}/pokemon`);
+    }
+  }, [authLoading, user, lang, router]);
 
   const v = labels.validation;
 

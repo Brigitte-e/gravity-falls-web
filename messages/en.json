@@ -32,7 +32,12 @@
     "remove": "Remove from favorites",
     "empty": "No favorites yet. Star a Pokémon on its detail page.",
     "savedCount": "{count} saved Pokémon",
-    "clearAll": "Clear all favorites"
+    "clearAll": "Clear all favorites",
+    "confirmRemove": "Do you really want to remove this pokemon from favorites?",
+    "confirmRemoveCancel": "Cancel",
+    "confirmRemoveConfirm": "Remove",
+    "confirmClearAll": "Do you really want to remove all pokemon from favorites?",
+    "confirmClearAllConfirm": "Clear all"
   },
   "typeFilter": {
     "filterByType": "Filter by type",

@@ -32,7 +32,12 @@
     "remove": "Quitar de favoritos",
     "empty": "Sin favoritos aún. Marca un Pokémon en su página de detalle.",
     "savedCount": "{count} Pokémon guardados",
-    "clearAll": "Borrar todos los favoritos"
+    "clearAll": "Borrar todos los favoritos",
+    "confirmRemove": "¿Realmente quieres eliminar este Pokémon de favoritos?",
+    "confirmRemoveCancel": "Cancelar",
+    "confirmRemoveConfirm": "Eliminar",
+    "confirmClearAll": "¿Realmente quieres eliminar todos los Pokémon de favoritos?",
+    "confirmClearAllConfirm": "Borrar todo"
   },
   "typeFilter": {
     "filterByType": "Filtrar por tipo",

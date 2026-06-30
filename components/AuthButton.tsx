@@ -51,7 +51,7 @@ export function AuthButton({ locale, loginLabel, profileLabel }: AuthButtonProps
   return (
     <Link
       href={`/${locale}/login`}
-      className="rounded-lg px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors text-muted-foreground hover:text-foreground hover:bg-muted"
+      className="rounded-lg px-3 py-1.5 text-sm font-bold whitespace-nowrap transition-colors bg-pk-red text-white hover:opacity-90"
     >
       {loginLabel}
     </Link>
