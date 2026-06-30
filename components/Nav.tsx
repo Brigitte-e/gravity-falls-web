@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
-import { LOCALES } from "@/lib/constants";
 import type { Locale } from "@/lib/constants";
+import { AuthButton } from "@/components/AuthButton";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export interface NavLabels {
   logo: string;
@@ -15,6 +16,8 @@ export interface NavLabels {
   items: string;
   pokemonOfTheDay: string;
   favorites: string;
+  login: string;
+  profile: string;
 }
 
 interface NavProps {
@@ -65,23 +68,9 @@ export function Nav({ labels, locale }: NavProps) {
           })}
         </nav>
 
-        <div className="flex items-center gap-0.5 rounded-lg border border-border p-0.5 shrink-0">
-          {LOCALES.map((lang) => (
-            <Link
-              key={lang}
-              href={pathname.replace(new RegExp(`^/${locale}(?=/|$)`), `/${lang}`)}
-              className={cn(
-                "rounded-md px-2 py-0.5 text-xs font-semibold transition-colors",
-                lang === locale
-                  ? "bg-pk-red text-white"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-              aria-pressed={lang === locale}
-            >
-              {lang.toUpperCase()}
-            </Link>
-          ))}
-        </div>
+        <LanguageSwitcher locale={locale} />
+
+        <AuthButton locale={locale} loginLabel={labels.login} profileLabel={labels.profile} />
       </div>
     </header>
   );

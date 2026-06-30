@@ -38,6 +38,8 @@ export default async function LangLayout({ children, params }: Props) {
     items: dict.nav.items,
     pokemonOfTheDay: dict.nav.pokemonOfTheDay,
     favorites: dict.nav.favorites,
+    login: dict.nav.login,
+    profile: dict.nav.profile,
   };
 
   return (

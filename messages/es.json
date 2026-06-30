@@ -11,7 +11,9 @@
     "moves": "Movimientos",
     "items": "Objetos",
     "pokemonOfTheDay": "Pokémon del Día",
-    "favorites": "Favoritos"
+    "favorites": "Favoritos",
+    "login": "Iniciar sesión",
+    "profile": "Perfil"
   },
   "common": {
     "back": "Atrás",
@@ -132,6 +134,46 @@
     "hint": "¡Haz clic en el botón para revelar tu Pokémon del día. Vuelve mañana para uno nuevo!",
     "mystery": "???",
     "mysteryType": "?????"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "signInTitle": "Inicia sesión en tu cuenta",
+    "signUpTitle": "Crear una cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
+    "continueWithGoogle": "Continuar con Google",
+    "noAccount": "¿No tienes cuenta?",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "pleaseWait": "Por favor espera…",
+    "errors": {
+      "invalidCredential": "Correo o contraseña incorrectos.",
+      "userNotFound": "No se encontró ninguna cuenta con este correo.",
+      "wrongPassword": "Contraseña incorrecta.",
+      "userDisabled": "Esta cuenta ha sido desactivada.",
+      "tooManyRequests": "Demasiados intentos fallidos. Inténtalo más tarde.",
+      "invalidEmail": "Introduce una dirección de correo válida.",
+      "emailAlreadyInUse": "Ya existe una cuenta con este correo.",
+      "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
+      "operationNotAllowed": "El inicio de sesión con correo/contraseña no está habilitado.",
+      "popupClosedByUser": "La ventana de inicio de sesión se cerró antes de completarse.",
+      "popupBlocked": "El navegador bloqueó la ventana de inicio de sesión.",
+      "accountExistsWithDifferentCredential": "Ya existe una cuenta con este correo. Prueba otro método de inicio de sesión.",
+      "networkRequestFailed": "Error de red. Comprueba tu conexión e inténtalo de nuevo.",
+      "fallback": "Algo salió mal. Inténtalo de nuevo."
+    },
+    "validation": {
+      "emailRequired": "Introduce una dirección de correo válida",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "passwordUppercase": "Debe contener al menos una letra mayúscula",
+      "passwordNumber": "Debe contener al menos un número",
+      "confirmPasswordRequired": "Por favor confirma tu contraseña",
+      "passwordsMustMatch": "Las contraseñas no coinciden"
+    }
   },
   "api": {
     "pokeApiError": "Error de PokeAPI {status}: {path}"

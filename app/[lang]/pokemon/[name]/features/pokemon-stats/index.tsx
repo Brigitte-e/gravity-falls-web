@@ -2,7 +2,7 @@ import { STAT_MAX } from "@/lib/constants";
 import { capitalize } from "@/lib/pokeapi";
 import type { StatEntry } from "@/types";
 
-function StatBar({ name, displayName, value }: { name: string; displayName: string; value: number }) {
+function StatBar({ displayName, value }: { displayName: string; value: number }) {
   return (
     <div className="flex items-center gap-3">
       <span className="w-28 text-xs text-muted-foreground uppercase tracking-wide shrink-0">
@@ -37,7 +37,6 @@ export function PokemonStats({ stats, title, statNames = {} }: Props) {
         {stats.map(({ stat, base_stat }) => (
           <StatBar
             key={stat.name}
-            name={stat.name}
             displayName={statNames[stat.name] ?? capitalize(stat.name)}
             value={base_stat}
           />

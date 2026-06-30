@@ -15,7 +15,14 @@
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('stats', d.get\\('pokemonDetail', {}\\)\\), indent=2\\)\\)\")",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d, indent=2\\)\\)\")",
       "Bash(grep -v \"favoriteEntry.ts$\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -m json.tool /Users/anastasiiakhymko/Documents/Projects/pokedex-web/messages/en.json)",
+      "Bash(mkdir -p /Users/anastasiiakhymko/Documents/Projects/pokedex-web/app/\\\\[lang\\\\]/profile)",
+      "Bash(grep -rn \"\\\\.png\\\\$\\\\|\\\\.svg\\\\$\\\\|\\\\.webp\\\\$\\\\|\\\\.jpg\\\\$\\\\|\\\\.ico\\\\$\" /Users/anastasiiakhymko/Documents/Projects/pokedex-web --include=\"*.tsx\" --include=\"*.ts\")",
+      "Bash(node -e \"const l = require\\('./node_modules/lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => /eye/i.test\\(k\\)\\)\\)\")"
+    ],
+    "additionalDirectories": [
+      "/Users/anastasiiakhymko/Documents/Projects/pokedex-web/app/[lang]"
     ]
   }
 }

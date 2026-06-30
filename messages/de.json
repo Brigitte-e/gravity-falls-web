@@ -11,7 +11,9 @@
     "moves": "Attacken",
     "items": "Items",
     "pokemonOfTheDay": "Pokémon des Tages",
-    "favorites": "Favoriten"
+    "favorites": "Favoriten",
+    "login": "Anmelden",
+    "profile": "Profil"
   },
   "common": {
     "back": "Zurück",
@@ -132,6 +134,46 @@
     "hint": "Klicke auf den Button, um dein Pokémon des Tages zu enthüllen. Komm morgen für ein neues zurück!",
     "mystery": "???",
     "mysteryType": "?????"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "signInTitle": "Bei deinem Konto anmelden",
+    "signUpTitle": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "continueWithGoogle": "Mit Google fortfahren",
+    "noAccount": "Noch kein Konto?",
+    "alreadyHaveAccount": "Bereits ein Konto?",
+    "pleaseWait": "Bitte warten…",
+    "errors": {
+      "invalidCredential": "Falsche E-Mail oder falsches Passwort.",
+      "userNotFound": "Kein Konto mit dieser E-Mail gefunden.",
+      "wrongPassword": "Falsches Passwort.",
+      "userDisabled": "Dieses Konto wurde deaktiviert.",
+      "tooManyRequests": "Zu viele Fehlversuche. Bitte später erneut versuchen.",
+      "invalidEmail": "Bitte eine gültige E-Mail-Adresse eingeben.",
+      "emailAlreadyInUse": "Ein Konto mit dieser E-Mail existiert bereits.",
+      "weakPassword": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "operationNotAllowed": "E-Mail/Passwort-Anmeldung ist nicht aktiviert.",
+      "popupClosedByUser": "Das Anmelde-Popup wurde geschlossen.",
+      "popupBlocked": "Das Anmelde-Popup wurde vom Browser blockiert.",
+      "accountExistsWithDifferentCredential": "Ein Konto mit dieser E-Mail existiert bereits. Versuche eine andere Anmeldemethode.",
+      "networkRequestFailed": "Netzwerkfehler. Überprüfe deine Verbindung und versuche es erneut.",
+      "fallback": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+    },
+    "validation": {
+      "emailRequired": "Bitte eine gültige E-Mail-Adresse eingeben",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordMinLength": "Das Passwort muss mindestens 6 Zeichen lang sein",
+      "passwordUppercase": "Muss mindestens einen Großbuchstaben enthalten",
+      "passwordNumber": "Muss mindestens eine Zahl enthalten",
+      "confirmPasswordRequired": "Bitte bestätige dein Passwort",
+      "passwordsMustMatch": "Passwörter stimmen nicht überein"
+    }
   },
   "api": {
     "pokeApiError": "PokeAPI-Fehler {status}: {path}"

@@ -11,7 +11,9 @@
     "moves": "Moves",
     "items": "Items",
     "pokemonOfTheDay": "Pokémon of the Day",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "login": "Log in",
+    "profile": "Profile"
   },
   "common": {
     "back": "Back",
@@ -132,6 +134,46 @@
     "hint": "Click the button to reveal your Pokémon of the day. Come back tomorrow for a new one!",
     "mystery": "???",
     "mysteryType": "?????"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signInTitle": "Sign in to your account",
+    "signUpTitle": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "continueWithGoogle": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "pleaseWait": "Please wait…",
+    "errors": {
+      "invalidCredential": "Incorrect email or password.",
+      "userNotFound": "No account found with this email.",
+      "wrongPassword": "Incorrect password.",
+      "userDisabled": "This account has been disabled.",
+      "tooManyRequests": "Too many failed attempts. Please try again later.",
+      "invalidEmail": "Enter a valid email address.",
+      "emailAlreadyInUse": "An account with this email already exists.",
+      "weakPassword": "Password must be at least 6 characters.",
+      "operationNotAllowed": "Email/password sign-in is not enabled.",
+      "popupClosedByUser": "Sign-in popup was closed before completing.",
+      "popupBlocked": "Sign-in popup was blocked by the browser.",
+      "accountExistsWithDifferentCredential": "An account already exists with this email. Try signing in with a different method.",
+      "networkRequestFailed": "Network error. Check your connection and try again.",
+      "fallback": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "emailRequired": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "passwordUppercase": "Must contain at least one uppercase letter",
+      "passwordNumber": "Must contain at least one number",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsMustMatch": "Passwords do not match"
+    }
   },
   "api": {
     "pokeApiError": "PokeAPI error {status}: {path}"

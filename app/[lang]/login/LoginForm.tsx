@@ -1,0 +1,351 @@
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Eye, EyeOff } from "lucide-react";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { getAuthErrorMessage } from "@/lib/firebase-errors";
+import { useAuthStore } from "@/store/auth";
+
+export interface AuthLabels {
+  signIn: string;
+  signUp: string;
+  signInTitle: string;
+  signUpTitle: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  showPassword: string;
+  hidePassword: string;
+  continueWithGoogle: string;
+  noAccount: string;
+  alreadyHaveAccount: string;
+  pleaseWait: string;
+  errors: {
+    invalidCredential: string;
+    userNotFound: string;
+    wrongPassword: string;
+    userDisabled: string;
+    tooManyRequests: string;
+    invalidEmail: string;
+    emailAlreadyInUse: string;
+    weakPassword: string;
+    operationNotAllowed: string;
+    popupClosedByUser: string;
+    popupBlocked: string;
+    accountExistsWithDifferentCredential: string;
+    networkRequestFailed: string;
+    fallback: string;
+  };
+  validation: {
+    emailRequired: string;
+    passwordRequired: string;
+    passwordMinLength: string;
+    passwordUppercase: string;
+    passwordNumber: string;
+    confirmPasswordRequired: string;
+    passwordsMustMatch: string;
+  };
+}
+
+interface Props {
+  lang: string;
+  labels: AuthLabels;
+}
+
+export function LoginForm({ lang, labels }: Props) {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuthStore();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [firebaseError, setFirebaseError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  if (!authLoading && user) {
+    router.replace(`/${lang}/pokemon`);
+  }
+
+  const v = labels.validation;
+
+  const signInSchema = z.object({
+    email: z.string().email(v.emailRequired),
+    password: z.string().min(1, v.passwordRequired),
+  });
+
+  const signUpSchema = z
+    .object({
+      email: z.string().email(v.emailRequired),
+      password: z
+        .string()
+        .min(6, v.passwordMinLength)
+        .regex(/[A-Z]/, v.passwordUppercase)
+        .regex(/[0-9]/, v.passwordNumber),
+      confirmPassword: z.string().min(1, v.confirmPasswordRequired),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: v.passwordsMustMatch,
+      path: ["confirmPassword"],
+    });
+
+  type SignInValues = z.infer<typeof signInSchema>;
+  type SignUpValues = z.infer<typeof signUpSchema>;
+
+  const signInForm = useForm<SignInValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: { email: "", password: "" },
+  });
+
+  const signUpForm = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { email: "", password: "", confirmPassword: "" },
+  });
+
+  const isSubmitting =
+    mode === "signin"
+      ? signInForm.formState.isSubmitting
+      : signUpForm.formState.isSubmitting;
+
+  function switchMode(next: "signin" | "signup") {
+    setFirebaseError(null);
+    signInForm.reset();
+    signUpForm.reset();
+    setShowPassword(false);
+    setShowConfirm(false);
+    setMode(next);
+  }
+
+  async function onSignIn(values: SignInValues) {
+    setFirebaseError(null);
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+    } catch (err) {
+      setFirebaseError(getAuthErrorMessage(err, labels.errors));
+    }
+  }
+
+  async function onSignUp(values: SignUpValues) {
+    setFirebaseError(null);
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+    } catch (err) {
+      setFirebaseError(getAuthErrorMessage(err, labels.errors));
+    }
+  }
+
+  async function handleGoogle() {
+    setFirebaseError(null);
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+    } catch (err) {
+      const msg = getAuthErrorMessage(err, labels.errors);
+      if (msg) setFirebaseError(msg);
+    }
+  }
+
+  return (
+    <main className="flex min-h-screen items-center justify-center p-4">
+      <div className="w-full max-w-sm space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold">PokéDex</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {mode === "signin" ? labels.signInTitle : labels.signUpTitle}
+          </p>
+        </div>
+
+        {firebaseError && (
+          <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {firebaseError}
+          </p>
+        )}
+
+        {mode === "signin" ? (
+          <form onSubmit={signInForm.handleSubmit(onSignIn)} className="space-y-4" noValidate>
+            <Field label={labels.email} error={signInForm.formState.errors.email?.message}>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                {...signInForm.register("email")}
+                className={inputCn(!!signInForm.formState.errors.email)}
+              />
+            </Field>
+
+            <Field label={labels.password} error={signInForm.formState.errors.password?.message}>
+              <PasswordInput
+                id="password"
+                autoComplete="current-password"
+                show={showPassword}
+                onToggle={() => setShowPassword((v) => !v)}
+                hasError={!!signInForm.formState.errors.password}
+                showLabel={labels.showPassword}
+                hideLabel={labels.hidePassword}
+                {...signInForm.register("password")}
+              />
+            </Field>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            >
+              {isSubmitting ? labels.pleaseWait : labels.signIn}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={signUpForm.handleSubmit(onSignUp)} className="space-y-4" noValidate>
+            <Field label={labels.email} error={signUpForm.formState.errors.email?.message}>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                {...signUpForm.register("email")}
+                className={inputCn(!!signUpForm.formState.errors.email)}
+              />
+            </Field>
+
+            <Field label={labels.password} error={signUpForm.formState.errors.password?.message}>
+              <PasswordInput
+                id="password"
+                autoComplete="new-password"
+                show={showPassword}
+                onToggle={() => setShowPassword((v) => !v)}
+                hasError={!!signUpForm.formState.errors.password}
+                showLabel={labels.showPassword}
+                hideLabel={labels.hidePassword}
+                {...signUpForm.register("password")}
+              />
+            </Field>
+
+            <Field label={labels.confirmPassword} error={signUpForm.formState.errors.confirmPassword?.message}>
+              <PasswordInput
+                id="confirmPassword"
+                autoComplete="new-password"
+                show={showConfirm}
+                onToggle={() => setShowConfirm((v) => !v)}
+                hasError={!!signUpForm.formState.errors.confirmPassword}
+                showLabel={labels.showPassword}
+                hideLabel={labels.hidePassword}
+                {...signUpForm.register("confirmPassword")}
+              />
+            </Field>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            >
+              {isSubmitting ? labels.pleaseWait : labels.signUp}
+            </button>
+          </form>
+        )}
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-background px-2 text-muted-foreground">or</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogle}
+          className="flex w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent disabled:opacity-50"
+        >
+          <GoogleIcon />
+          {labels.continueWithGoogle}
+        </button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          {mode === "signin" ? `${labels.noAccount} ` : `${labels.alreadyHaveAccount} `}
+          <button
+            type="button"
+            className="font-medium text-primary hover:underline"
+            onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
+          >
+            {mode === "signin" ? labels.signUp : labels.signIn}
+          </button>
+        </p>
+      </div>
+    </main>
+  );
+}
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+
+function inputCn(hasError: boolean) {
+  return `w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring ${
+    hasError ? "border-destructive focus:ring-destructive/40" : "border-input"
+  }`;
+}
+
+interface FieldProps {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}
+
+function Field({ label, error, children }: FieldProps) {
+  return (
+    <div className="space-y-1">
+      <label className="text-sm font-medium">{label}</label>
+      {children}
+      {error && (
+        <p role="alert" className="text-xs text-destructive">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  show: boolean;
+  onToggle: () => void;
+  hasError: boolean;
+  showLabel: string;
+  hideLabel: string;
+}
+
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ show, onToggle, hasError, showLabel, hideLabel, ...props }, ref) => (
+    <div className="relative">
+      <input
+        {...props}
+        ref={ref}
+        type={show ? "text" : "password"}
+        className={`${inputCn(hasError)} pr-10`}
+      />
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={show ? hideLabel : showLabel}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+      >
+        {show ? <EyeOff size={16} /> : <Eye size={16} />}
+      </button>
+    </div>
+  ),
+);
+PasswordInput.displayName = "PasswordInput";
+
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
+  );
+}
