@@ -12,7 +12,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { getAuthErrorMessage } from "@/lib/firebase-errors";
 import { useAuthStore } from "@/store/auth";
 
@@ -128,7 +128,7 @@ export function LoginForm({ lang, labels }: Props) {
   async function onSignIn(values: SignInValues) {
     setFirebaseError(null);
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
+      await signInWithEmailAndPassword(getFirebaseAuth(), values.email, values.password);
     } catch (err) {
       setFirebaseError(getAuthErrorMessage(err, labels.errors));
     }
@@ -137,7 +137,7 @@ export function LoginForm({ lang, labels }: Props) {
   async function onSignUp(values: SignUpValues) {
     setFirebaseError(null);
     try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      await createUserWithEmailAndPassword(getFirebaseAuth(), values.email, values.password);
     } catch (err) {
       setFirebaseError(getAuthErrorMessage(err, labels.errors));
     }
@@ -146,7 +146,7 @@ export function LoginForm({ lang, labels }: Props) {
   async function handleGoogle() {
     setFirebaseError(null);
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      await signInWithPopup(getFirebaseAuth(), new GoogleAuthProvider());
     } catch (err) {
       const msg = getAuthErrorMessage(err, labels.errors);
       if (msg) setFirebaseError(msg);

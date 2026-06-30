@@ -3,7 +3,7 @@
 import { use, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { useAuthStore } from "@/store/auth";
 
 interface Props {
@@ -27,7 +27,7 @@ export default function ProfilePage({ params }: Props) {
     setSignOutError(null);
     signingOut.current = true;
     try {
-      await signOut(auth);
+      await signOut(getFirebaseAuth());
       router.push(`/${lang}/pokemon`);
     } catch (err: unknown) {
       signingOut.current = false;

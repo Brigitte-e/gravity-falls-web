@@ -8,15 +8,15 @@ import {
   serverTimestamp,
   type Unsubscribe,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { getFirebaseDb } from "@/lib/firebase";
 import type { FavoriteItem } from "@/types/favorite";
 
 function favoritesRef(userId: string) {
-  return collection(db, "users", userId, "favorites");
+  return collection(getFirebaseDb(), "users", userId, "favorites");
 }
 
 function favoriteDocRef(userId: string, itemId: string) {
-  return doc(db, "users", userId, "favorites", itemId);
+  return doc(getFirebaseDb(), "users", userId, "favorites", itemId);
 }
 
 export async function addFavorite(
